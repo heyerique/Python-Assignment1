@@ -1,5 +1,8 @@
 class StaffInfo:
-    empid = 0
+    """
+    Author: Zhiming Liu
+    """
+    empid = ""
     gender = ""
     age = 0
     sales = 0

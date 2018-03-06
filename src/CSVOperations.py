@@ -63,7 +63,7 @@ class CSVOperations:
 
 op = CSVOperations('staffinfo.csv')
 print(op.data)
-# new_data_01 = {"empid": 4, "gender": "M", "age": 41, "sales": 200,
+# new_data_01 = {"empid": "Y411", "gender": "M", "age": 41, "sales": 200,
 # "bmi": "Obesity", "salary": 450, "birthday": "01-09-1977"}
 # op.save_data(new_data_01)
 # print(op.data)

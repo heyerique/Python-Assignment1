@@ -1,13 +1,50 @@
-import abc
+from abc import ABCMeta, abstractmethod
 
 
-class View(abc.ABC):
+class View(metaclass=ABCMeta):
     @staticmethod
-    @abc.abstractmethod
+    @abstractmethod
     def display(text):
+        """
+        Output information
+        :param text: A text string
+        :return: None
+        :Author: Zhiming Liu
+        """
         pass
 
     @staticmethod
-    @abc.abstractmethod
-    def plot(data):
+    @abstractmethod
+    def plot_pie(data, title=""):
+        """
+        Plot a pie chart for gender, BMI
+        :param data: data dictionary
+        :param title: string
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def plot_bar(data, title=""):
+        """
+        Plot a vertical bar chart for sales, salary, age...
+        :param data: dictionary,
+        :param title: string
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def plot_barh(data, title=""):
+        """
+        Plot a horizontal bar chart for sales, salary, age...
+        :param data: dictionary,
+        :param title: string
+        :return: None
+        :Author: Zhiming Liu
+        """
         pass
