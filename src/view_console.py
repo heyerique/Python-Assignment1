@@ -1,4 +1,4 @@
-from View import View
+from iview import View
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -54,3 +54,4 @@ class ViewConsole(View):
 
 # new_data = {'Male': 75.0, 'Female': 15.0}
 # ViewConsole.plot_pie(new_data, "Gender")
+# ViewConsole.plot_bar(new_data, "Gender")

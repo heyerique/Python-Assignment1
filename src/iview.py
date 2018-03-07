@@ -2,6 +2,9 @@ from abc import ABCMeta, abstractmethod
 
 
 class View(metaclass=ABCMeta):
+    """
+    Interface for output implementation
+    """
     @staticmethod
     @abstractmethod
     def display(text):
