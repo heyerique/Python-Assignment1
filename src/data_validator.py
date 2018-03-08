@@ -46,7 +46,7 @@ class DataValidator:
         pattern = r"\D*(?P<salary>[0-9]{2,3})\D*"
         match_obj = re.search(pattern, salary)
         if match_obj:
-            return int(match_obj["salary"])
+            return int(match_obj.group("salary"))
         return None
 
     @staticmethod
