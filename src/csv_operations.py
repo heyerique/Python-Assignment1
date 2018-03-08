@@ -5,27 +5,20 @@ from idata_access import dataAccess
 class CSVOperations(dataAccess):
     """
     This is class for reading from a specified CSV file and writing new data to it
-    Author:
-        Zhiming Liu
+    :Author: Zhiming Liu
     """
     __file_path = ""
     fieldnames = ['empid', 'gender', 'age', 'sales', 'bmi', 'salary', 'birthday']
     data = []
 
     def __init__(self, file_path):
-        """
-        This the constructor of the class
-        Args:
-            file_path: the path of the CSV file
-        """
         self.__file_path = file_path
         self.data = self.read()
 
     def read(self):
         """
         This function return content of the CSV file
-        Returns:
-            List of the file content
+        :return: None
         """
         data = []
         try:
@@ -35,20 +28,27 @@ class CSVOperations(dataAccess):
                     data = [dict(row) for row in reader][1:]
                 except csv.Error as e:
                     print("Read file error: " + str(e))
-        except OSError as os_e:
-            print(os_e)
+        except OSError as e:
+            print(e)
         except Exception as e:
             print(e)
 
         return data
 
     def add(self, new_data: list):
+        """
+        Add new items to self.data
+        :param new_data: list of dictionaries. The keys of the dictionaries must match self.fieldnames
+        :return: None
+        """
         try:
             if new_data is not list:
                 raise AttributeError("Add data error: Data should be a list")
             for row in new_data:
                 self.data.append(row)
         except AttributeError as e:
+            print(e)
+        except Exception as e:
             print(e)
 
     def file_exist(self):
@@ -57,10 +57,7 @@ class CSVOperations(dataAccess):
     def save(self):
         """
         This function saves new data to the CSV file
-        Args:
-            new_data: a list of new data in Dictionary with specified keys
-        Returns:
-            Boolean values. True is success, False if failed
+        :return: Boolean values. True is success, False if failed
         """
         result = True
         try:
@@ -75,9 +72,9 @@ class CSVOperations(dataAccess):
                     except csv.Error as e:
                         result = False
                         print("Write data failed: " + str(e))
-        except OSError as os_e:
+        except OSError as e:
             result = False
-            print(os_e)
+            print(e)
 
         return result
 
