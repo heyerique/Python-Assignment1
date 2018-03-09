@@ -43,17 +43,9 @@ class StaffData:
         :Author: Zhiming Liu
         """
         if not self.data_exist(data):
-            # Create object of Staff
-            #staff = Staff(data[Data.EMPID], data[Data.AGE], data[Data.GENDER],
-            #              data[Data.SALES], data[Data.BMI], data[Data.SALARY], data[Data.BIRTHDAY])
             staff = {}
-            staff["empid"] = data[0]
-            staff["age"] = data[1]
-            staff["gender"] = data[2]
-            staff["sales"] = data[3]
-            staff["bmi"] = data[4]
-            staff["salary"] = data[5]
-            staff["birthday"] = data[6]
+            for d in Data:
+                staff[d.name] = data[d.value]
 
             # Append to the temporary data
             self.data.append(staff)
@@ -69,7 +61,7 @@ class StaffData:
         :Author: Zhiming Liu
         """
         for staff in self.data:
-            if data[0] == staff["empid"]:
+            if data[Data.EMPID.value] == staff[Data.EMPID.name]:
                 return True
         return
 
@@ -95,7 +87,7 @@ class StaffData:
         if not self._source == None:
             for row in self.data:
                 # Calculate sum of male
-                if row["gender"] == "M":
+                if row[Data.GENDER.name] == "M":
                     male += 1
                 # Calculate sum of female
                 else:

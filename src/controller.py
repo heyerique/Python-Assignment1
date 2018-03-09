@@ -3,6 +3,7 @@ from csv import Error as CSVError
 from data_validator import DataValidator
 from view_console import ViewConsole as v
 from staff_data import StaffData
+from data import Data
 
 class Controller(Cmd):
     def __init__(self):
@@ -17,18 +18,8 @@ class Controller(Cmd):
         # Object of DataValidator, for validating data
         self._vld = DataValidator()
 
-        # For saving data temporarily until user finish adding
-        # self._data = []
-
-        # The object of the selected data source class
-        # self._source = None
-
         # Available data sources
         self._data_sources = "csv", "database", "web"
-
-        # The flag to mark if the temporary data is saved or not
-        # Initially the value is True, set False after a new data is saved successfully
-        # self._saved = True
 
         # Instance of StaffData
         self._std = StaffData()
@@ -79,7 +70,7 @@ class Controller(Cmd):
 
         try:
             # Check if input data has 7 data fields
-            if not len(raw_data) == 7:
+            if not len(raw_data) == len(Data):
                 raise AttributeError("Error: Please input correct data.")
             else:
                 # Check and wash data by check_all() of DataValidator
