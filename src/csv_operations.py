@@ -42,7 +42,7 @@ class CSVOperations(dataAccess):
         :return: None
         """
         try:
-            if new_data is not list:
+            if not type(new_data) == list:
                 raise AttributeError("Add data error: Data should be a list")
             for row in new_data:
                 self.data.append(row)
@@ -79,11 +79,11 @@ class CSVOperations(dataAccess):
         return result
 
 
-# op = CSVOperations('staffinfo2.csv')
+# op = CSVOperations('staffinfo.csv')
 # new_data_2 = 12
 # print(op.save())
-# new_data_01 = [{"empid": "Y412", "gender": "M", "age": 41, "sales": 200,
+# new_data_01 = [{"empid": "Y413", "gender": "M", "age": 41, "sales": 200,
 # "bmi": "Obesity", "salary": 450, "birthday": "01-09-1977"}]
 # op.add(new_data_01)
 # op.save()
-# print(op.get_data)
+# print(op.data)

@@ -2,6 +2,10 @@ import re
 
 class DataValidator:
     @staticmethod
+    def check_empid(empid):
+        return empid
+
+    @staticmethod
     def check_gender(gender):
         return gender
 
@@ -39,16 +43,71 @@ class DataValidator:
         :Author: Zhiming Liu
         """
         salary = input_salary
-        pattern = r"\D(?P<salary>[0-9]{2,3})\D"
+        pattern = r"\D*(?P<salary>[0-9]{2,3})\D*"
         match_obj = re.search(pattern, salary)
         if match_obj:
-            return match_obj["salary"]
+            return int(match_obj.group("salary"))
         return None
 
     @staticmethod
     def check_birthday(birthday):
         return birthday
 
+    def check_all(self, all_data):
+        """
+        Check validation of the all data. Throw ValueError Exceptions.
+        :param all_data: a data list
+        :return: washed data in dictionary
+        :Author: Zhiming Liu
+        """
+        data = {}
+        error_str = "Error: %s is not a valid value."
+
+        value = self.check_empid(all_data[0])
+        if value == None:
+            raise ValueError(error_str % "EMPID")
+        else:
+            data["empid"] = value
+
+        value = self.check_age(all_data[1])
+        if value == None:
+            raise ValueError(error_str % "Age")
+        else:
+            data["age"] = value
+
+        value = self.check_gender(all_data[2])
+        if value == None:
+            raise ValueError(error_str % "Gender")
+        else:
+            data["gender"] = value
+
+        value = self.check_sales(all_data[3])
+        if value == None:
+            raise ValueError(error_str % "Sales")
+        else:
+            data["sales"] = value
+
+        value = self.check_bmi(all_data[4])
+        if value == None:
+            raise ValueError(error_str % "BMI")
+        else:
+            data["bmi"] = value
+
+        value = self.check_salary(all_data[5])
+        if value == None:
+            raise ValueError(error_str % "Salary")
+        else:
+            data["salary"] = value
+
+        value = self.check_birthday(all_data[6])
+        if value == None:
+            raise ValueError(error_str % "Birthday")
+        else:
+            data["birthday"] = value
+
+        return data
+
 
 # print(DataValidator.check_bmi("jbjndsoidiri88888normaljdjdjd"))
-# print(DataValidator.check_salary("$001TT TW"))
+# v = DataValidator()
+# print(v.check_all("$001TT TW"))
