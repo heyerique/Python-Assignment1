@@ -1,4 +1,5 @@
 import re
+from data import Data
 
 class DataValidator:
     @staticmethod
@@ -25,13 +26,20 @@ class DataValidator:
         :return: Formatted BMI if the input one is valid, otherwise, return None
         :Author: Zhiming Liu
         """
+        # Convert the input data to string
         bmi = str(input_bmi)
+
+        # Regular expression checks if any of the specified keywords exists
+        # :P<bmi> Assign to the group with the keyword 'bmi'
         pattern = r".*(?P<bmi>normal|overweight|obesity|underweight).*"
         match_obj = re.search(pattern, bmi, re.I)
         if match_obj:
-            bmi = match_obj.group("bmi") # Find the match
+            # Get the matched word
+            bmi = match_obj.group("bmi")
+            # Convert the first letter to uppercase and lowercase for rest of them
             bmi = " ".join(text[0].upper() + text[1:] for text in bmi.split()) # Capitalise the first letter
             return bmi
+        # Return None if no match found
         return None
 
     @staticmethod
@@ -42,11 +50,14 @@ class DataValidator:
         :return: Formatted salary if the input one is valid, otherwise, return None
         :Author: Zhiming Liu
         """
-        salary = input_salary
+        # Regular expression checks if there are consecutive 3 numbers
+        # :P<salary> Assign to the group with the keyword 'salary'
         pattern = r"\D*(?P<salary>[0-9]{2,3})\D*"
-        match_obj = re.search(pattern, salary)
+        match_obj = re.search(pattern, input_salary)
         if match_obj:
+            # Convert the match to integer and return
             return int(match_obj.group("salary"))
+        # Return None if no match found
         return None
 
     @staticmethod
@@ -60,50 +71,74 @@ class DataValidator:
         :return: washed data in dictionary
         :Author: Zhiming Liu
         """
-        data = {}
+        # Save the washed data temporarily
+        data = []
+
+        # String template for exceptions
         error_str = "Error: %s is not a valid value."
 
+        # Check and wash EMPID
         value = self.check_empid(all_data[0])
+        # Raise an exception if the return value is None,
+        # Otherwise save to the temporary data
         if value == None:
             raise ValueError(error_str % "EMPID")
         else:
-            data["empid"] = value
+            data.append(value)
 
+        # Check and wash age
         value = self.check_age(all_data[1])
+        # Raise an exception if the return value is None,
+        # Otherwise save to the temporary data
         if value == None:
             raise ValueError(error_str % "Age")
         else:
-            data["age"] = value
+            data.append(value)
 
+        # Check and wash gender
         value = self.check_gender(all_data[2])
+        # Raise an exception if the return value is None,
+        # Otherwise save to the temporary data
         if value == None:
             raise ValueError(error_str % "Gender")
         else:
-            data["gender"] = value
+            data.append(value)
 
+        # Check and wash sales
         value = self.check_sales(all_data[3])
+        # Raise an exception if the return value is None,
+        # Otherwise save to the temporary data
         if value == None:
             raise ValueError(error_str % "Sales")
         else:
-            data["sales"] = value
+            data.append(value)
 
+        # Check and wash BMI
         value = self.check_bmi(all_data[4])
+        # Raise an exception if the return value is None,
+        # Otherwise save to the temporary data
         if value == None:
             raise ValueError(error_str % "BMI")
         else:
-            data["bmi"] = value
+            data.append(value)
 
+        # Check and wash salary
         value = self.check_salary(all_data[5])
+        # Raise an exception if the return value is None,
+        # Otherwise save to the temporary data
         if value == None:
             raise ValueError(error_str % "Salary")
         else:
-            data["salary"] = value
+            data.append(value)
 
+        # Check and wash birthday
         value = self.check_birthday(all_data[6])
+        # Raise an exception if the return value is None,
+        # Otherwise save to the temporary data
         if value == None:
             raise ValueError(error_str % "Birthday")
         else:
-            data["birthday"] = value
+            data.append(value)
 
         return data
 

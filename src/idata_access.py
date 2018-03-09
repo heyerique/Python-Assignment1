@@ -14,17 +14,17 @@ class dataAccess(metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
-    def add(self, new_data: list):
-        """
-        Add a list of new data to the property data
-        :param new_data: Dictionary list
-        :return: None
-        """
-        pass
+    #@abstractmethod
+    #def add(self, new_data: list):
+    #    """
+    #    Add a list of new data to the property data
+    #    :param new_data: Dictionary list
+    #    :return: None
+    #    """
+    #    pass
 
     @abstractmethod
-    def save(self):
+    def save(self, data: list):
         """
         Save data to local files or database
         :return: Boolean
