@@ -120,24 +120,8 @@ class Controller(Cmd):
 
         # Show data table
         if args[0] == "-a":
-            v.display("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
-                      .format(Data.EMPID.name,
-                              Data.GENDER.name,
-                              Data.AGE.name,
-                              Data.SALES.name,
-                              Data.BMI.name,
-                              Data.SALARY.name,
-                              Data.BIRTHDAY.name))
-            v.display("-"*70)
-            for row in self._std.data:
-                v.display("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
-                          .format(row[Data.EMPID.name],
-                                  row[Data.GENDER.name],
-                                  row[Data.AGE.name],
-                                  row[Data.SALES.name],
-                                  row[Data.BMI.name],
-                                  row[Data.SALARY.name],
-                                  row[Data.BIRTHDAY.name]))
+            v.display_data(self._std.data)
+
         # Draw Pies
         if args[0] == "-p":
             # Draw gender

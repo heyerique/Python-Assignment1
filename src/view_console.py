@@ -1,6 +1,7 @@
 from iview import View
 import matplotlib.pyplot as plt
 import numpy as np
+from data import Data
 
 
 class ViewConsole(View):
@@ -15,6 +16,27 @@ class ViewConsole(View):
     @staticmethod
     def success(text):
         print("Succeed: %s" % text)
+
+    @staticmethod
+    def display_data(data):
+        print("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
+                  .format(Data.EMPID.name,
+                          Data.GENDER.name,
+                          Data.AGE.name,
+                          Data.SALES.name,
+                          Data.BMI.name,
+                          Data.SALARY.name,
+                          Data.BIRTHDAY.name))
+        print("-" * 70)
+        for row in data:
+            print("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
+                      .format(row[Data.EMPID.name],
+                              row[Data.GENDER.name],
+                              row[Data.AGE.name],
+                              row[Data.SALES.name],
+                              row[Data.BMI.name],
+                              row[Data.SALARY.name],
+                              row[Data.BIRTHDAY.name]))
 
     @staticmethod
     def plot_pie(data, title=""):

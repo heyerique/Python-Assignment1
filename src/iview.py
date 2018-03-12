@@ -18,7 +18,7 @@ class View(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def display_error(text):
+    def error(text):
         """
         Output information
         :param text: A text string
@@ -29,9 +29,20 @@ class View(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def display_success(text):
+    def success(text):
         """
         Output information
+        :param text: A text string
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def display_data(data):
+        """
+        Output data
         :param text: A text string
         :return: None
         :Author: Zhiming Liu
