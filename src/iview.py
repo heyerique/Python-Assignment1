@@ -18,6 +18,28 @@ class View(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
+    def display_error(text):
+        """
+        Output information
+        :param text: A text string
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def display_success(text):
+        """
+        Output information
+        :param text: A text string
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
     def plot_pie(data, title=""):
         """
         Plot a pie chart for gender, BMI

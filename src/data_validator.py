@@ -2,6 +2,15 @@ import re
 from data import Data
 
 class DataValidator:
+
+    def __init__(self):
+        # A function list if validators
+        self.validators = (
+            self.check_empid, self.check_age, self.check_gender,
+            self.check_sales, self.check_bmi, self.check_salary,
+            self.check_birthday
+        )
+
     @staticmethod
     def check_empid(empid):
         return empid
@@ -64,7 +73,7 @@ class DataValidator:
     def check_birthday(birthday):
         return birthday
 
-    def check_all(self, all_data):
+    def check_all(self, all_data: list):
         """
         Check validation of the all data. Throw ValueError Exceptions.
         :param all_data: a data list
@@ -72,75 +81,22 @@ class DataValidator:
         :Author: Zhiming Liu
         """
         # Save the washed data temporarily
-        data = []
+        result = []
 
-        # String template for exceptions
-        error_str = "Error: %s is not a valid value."
+        # If the number of the data is not correct, return an empty result
+        if not len(all_data) == len(Data):
+            return result
 
-        # Check and wash EMPID
-        value = self.check_empid(all_data[Data.EMPID.value])
-        # Raise an exception if the return value is None,
-        # Otherwise save to the temporary data
-        if value == None:
-            raise ValueError(error_str % Data.EMPID.name)
-        else:
-            data.append(value)
+        # Check and wash data
+        key = 0
+        while key < len(all_data):
+            # Get the validation function by the order of the data
+            v = self.validators[key]
+            # Append to the result
+            result.append(v(all_data[key]))
+            key += 1
 
-        # Check and wash age
-        value = self.check_age(all_data[Data.AGE.value])
-        # Raise an exception if the return value is None,
-        # Otherwise save to the temporary data
-        if value == None:
-            raise ValueError(error_str % Data.AGE.name)
-        else:
-            data.append(value)
-
-        # Check and wash gender
-        value = self.check_gender(all_data[Data.GENDER.value])
-        # Raise an exception if the return value is None,
-        # Otherwise save to the temporary data
-        if value == None:
-            raise ValueError(error_str % Data.GENDER.name)
-        else:
-            data.append(value)
-
-        # Check and wash sales
-        value = self.check_sales(all_data[Data.SALES.value])
-        # Raise an exception if the return value is None,
-        # Otherwise save to the temporary data
-        if value == None:
-            raise ValueError(error_str % Data.SALES.name)
-        else:
-            data.append(value)
-
-        # Check and wash BMI
-        value = self.check_bmi(all_data[Data.BMI.value])
-        # Raise an exception if the return value is None,
-        # Otherwise save to the temporary data
-        if value == None:
-            raise ValueError(error_str % Data.BMI.name)
-        else:
-            data.append(value)
-
-        # Check and wash salary
-        value = self.check_salary(all_data[Data.SALARY.value])
-        # Raise an exception if the return value is None,
-        # Otherwise save to the temporary data
-        if value == None:
-            raise ValueError(error_str % Data.SALARY.name)
-        else:
-            data.append(value)
-
-        # Check and wash birthday
-        value = self.check_birthday(all_data[Data.BIRTHDAY.value])
-        # Raise an exception if the return value is None,
-        # Otherwise save to the temporary data
-        if value == None:
-            raise ValueError(error_str % Data.BIRTHDAY.name)
-        else:
-            data.append(value)
-
-        return data
+        return result
 
 
 # print(DataValidator.check_bmi("jbjndsoidiri88888normaljdjdjd"))

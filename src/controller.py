@@ -54,9 +54,9 @@ class Controller(Cmd):
                     pass
         # Catch and display error message
         except AttributeError as e:
-            v.display(e)
+            v.error(e)
         except Exception as e:
-            v.display(e)
+            v.error(e)
 
 
     def do_add(self, input):
@@ -74,13 +74,27 @@ class Controller(Cmd):
                 raise AttributeError("Error: Please input correct data.")
             else:
                 # Check and wash data by check_all() of DataValidator
-                self._std.add_data(self._vld.check_all(raw_data))
+                result = self._vld.check_all(raw_data)
+                # Check if there is any None which stands for invalid input
+                if None in result:
+                    key = 0
+                    # build a list of name list
+                    items = list(map(lambda i : i.name, Data))
+                    e_str = ""
+                    while key < len(result):
+                        if result[key] == None:
+                            # Left alignment
+                            e_str += "{:<10}".format(items[key])
+                        key += 1
+                    raise ValueError("The following field(s) is invalid:\n%s" % e_str)
+                else:
+                    self._std.add_data(result)
         except (AttributeError, ValueError, CSVError) as e:
-            v.display(e)
+            v.error(e)
         except Exception as e:
-            v.display(e)
+            v.error(e)
         else:
-            v.display("Add succeed.")
+            v.success("Add data")
 
     def do_save(self, arg):
         """
@@ -92,11 +106,11 @@ class Controller(Cmd):
         try:
             self._std.save_data()
         except (OSError, AttributeError) as e:
-            v.display(e)
+            v.error(e)
         except Exception as e:
-            v.display(e)
+            v.error(e)
         else:
-            v.display("Data is saved successfully.")
+            v.success("Data is saved")
 
 
     def do_show(self, line):

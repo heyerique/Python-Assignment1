@@ -9,6 +9,14 @@ class ViewConsole(View):
         print(text)
 
     @staticmethod
+    def error(text):
+        print("Error: %s" % text)
+
+    @staticmethod
+    def success(text):
+        print("Succeed: %s" % text)
+
+    @staticmethod
     def plot_pie(data, title=""):
         # Get labels and sizes from the data
         labels, sizes = list(data.keys()), list(data.values())
