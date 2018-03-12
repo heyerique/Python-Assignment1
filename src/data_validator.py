@@ -6,7 +6,7 @@ class DataValidator:
     def __init__(self):
         # A function list if validators
         self.validators = (
-            self.check_empid, self.check_age, self.check_gender,
+            self.check_empid, self.check_gender, self.check_age,
             self.check_sales, self.check_bmi, self.check_salary,
             self.check_birthday
         )

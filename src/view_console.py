@@ -19,13 +19,19 @@ class ViewConsole(View):
     @staticmethod
     def plot_pie(data, title=""):
         # Get labels and sizes from the data
-        labels, sizes = list(data.keys()), list(data.values())
+        labels, values = list(data.keys()), list(data.values())
+
+        # Show numbers on labels
+        id = 0
+        while id < len(labels):
+            labels[id] = "{0} ({1})".format(labels[id], values[id])
+            id += 1
 
         # Create a figure and a set of subplots
         fq, ax = plt.subplots()
 
         # Set labels, start angle, and the label format (e.g.: 35.0%)
-        ax.pie(sizes, labels=labels, startangle=90, autopct="%0.1f%%")
+        ax.pie(values, labels=labels, startangle=90, autopct="%0.1f%%")
 
         # Equal aspect ratio ensures that pie is drawn as a circle.
         ax.axis("equal")
@@ -50,7 +56,7 @@ class ViewConsole(View):
         width = 0.5
 
         # Set X, Y, bar width and bar colour
-        plt.bar(x, y, width, color="#8FFF51")
+        plt.bar(x, y, width, color="#FF55AA")
 
         # Set labels for X items
         plt.xticks(x, labels)
@@ -78,7 +84,7 @@ class ViewConsole(View):
         width = 0.2
 
         # Set Y, X, bar width and bar colour
-        plt.barh(y, x, width, color="#8FFF51")
+        plt.barh(y, x, width, color="#FF55AA")
 
         # Set labels for Y items
         plt.yticks(y, labels)

@@ -33,17 +33,18 @@ class Controller(Cmd):
         try:
             # Check if the input data source is available in this program or not
             if input not in self._data_sources:
-                raise ValueError("Error: The input value is not valid")
+                raise ValueError("The data resource is not available.")
             else:
                 # Code for initialise CSV data source
                 if input == "csv":
                     try:
                         self._std.select_source("csv")
-                        v.display("Data source CSV is selected.")
                     except (CSVError, OSError) as e:
-                        v.display("CSV Initialisation Error: " + e)
+                        v.error(e)
                     except Exception as e:
-                        v.display("CSV Initialisation Error: " + str(e))
+                        v.error(e)
+                    else:
+                        v.success("Data source CSV is selected.")
 
                 # Code for initialise database source
                 elif input == "database":
@@ -71,7 +72,7 @@ class Controller(Cmd):
         try:
             # Check if input data has 7 data fields
             if not len(raw_data) == len(Data):
-                raise AttributeError("Error: Please input correct data.")
+                raise AttributeError("Please input correct data.")
             else:
                 # Check and wash data by check_all() of DataValidator
                 result = self._vld.check_all(raw_data)
@@ -114,14 +115,47 @@ class Controller(Cmd):
 
 
     def do_show(self, line):
-        if line == "alldata":
-             v.display(self._std.data)
-
-    def do_plot(self, line):
+        # Get all instructions
         args = str(line).split()
-        if args[0] == "pie":
-            if args[1] == "gender":
-                v.plot_pie(self._std.get_gender())
+
+        # Show data table
+        if args[0] == "-a":
+            v.display("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
+                      .format(Data.EMPID.name,
+                              Data.GENDER.name,
+                              Data.AGE.name,
+                              Data.SALES.name,
+                              Data.BMI.name,
+                              Data.SALARY.name,
+                              Data.BIRTHDAY.name))
+            v.display("-"*70)
+            for row in self._std.data:
+                v.display("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
+                          .format(row[Data.EMPID.name],
+                                  row[Data.GENDER.name],
+                                  row[Data.AGE.name],
+                                  row[Data.SALES.name],
+                                  row[Data.BMI.name],
+                                  row[Data.SALARY.name],
+                                  row[Data.BIRTHDAY.name]))
+        # Draw Pies
+        if args[0] == "-p":
+            # Draw gender
+            if args[1].upper() == Data.GENDER.name:
+                v.plot_pie(self._std.get_gender(), "Gender Distribution")
+            # Draw BMI
+            if args[1].upper() == Data.BMI.name:
+                v.plot_pie(self._std.get_bmi(), "Body Mass Index (BMI)")
+
+        # Draw Bars
+        if args[0] == "-b":
+            # Draw gender
+            if args[1].upper() == Data.GENDER.name:
+                v.plot_bar(self._std.get_gender(), "Gender Distribution")
+            # Draw BMI
+            if args[1].upper() == Data.BMI.name:
+                v.plot_bar(self._std.get_bmi(), "Body Mass Index (BMI)")
+
 
     def do_quit(self, line):
         v.display("Bye!")

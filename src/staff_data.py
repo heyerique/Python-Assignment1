@@ -5,8 +5,9 @@ class StaffData:
     """
     For data related operations
     """
-    data = []
-    _source = None
+    def __init__(self):
+        self.data = []
+        self._source = None
 
     def select_source(self, source):
         """
@@ -43,15 +44,11 @@ class StaffData:
         :Author: Zhiming Liu
         """
         if not self.data_exist(data):
-            staff = {}
-            for d in Data:
-                staff[d.name] = data[d.value]
-
             # Append to the temporary data
-            self.data.append(staff)
+            self.data.append({d.name:data[d.value] for d in Data})
         else:
             # If the EMPID is exists, raise an exception
-            raise AttributeError("Add data error: The EMPID already exists.")
+            raise AttributeError("The EMPID already exists.")
 
     def data_exist(self, data):
         """
@@ -61,7 +58,7 @@ class StaffData:
         :Author: Zhiming Liu
         """
         for staff in self.data:
-            if data[Data.EMPID.value] == staff[Data.EMPID.name]:
+            if data[int(Data.EMPID.value)] == staff[Data.EMPID.name]:
                 return True
         return
 
@@ -74,7 +71,7 @@ class StaffData:
         if not self._source == None:
             self._source.save(self.data)
         else:
-            raise OSError("Error: No data source specified.")
+            raise OSError("No data source specified.")
 
     def get_gender(self):
         """
@@ -84,12 +81,20 @@ class StaffData:
         """
         male = 0
         female = 0
-        if not self._source == None:
-            for row in self.data:
-                # Calculate sum of male
-                if row[Data.GENDER.name] == "M":
-                    male += 1
-                # Calculate sum of female
-                else:
-                    female += 1
+        for row in self.data:
+            # Calculate sum of male
+            if row[Data.GENDER.name] == "M":
+                male += 1
+            # Calculate sum of female
+            else:
+                female += 1
         return {"Male": male, "Female": female}
+
+    def get_bmi(self):
+        bmi = {}
+        for row in self.data:
+            if row[Data.BMI.name] not in bmi.keys():
+                bmi[row[Data.BMI.name]] = 1
+            else:
+                bmi[row[Data.BMI.name]] += 1
+        return bmi

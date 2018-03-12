@@ -7,8 +7,8 @@ class Data(Enum):
     :Author: Zhiming Liu
     """
     EMPID = 0
-    AGE = 1
-    GENDER = 2
+    GENDER = 1
+    AGE = 2
     SALES = 3
     BMI = 4
     SALARY = 5

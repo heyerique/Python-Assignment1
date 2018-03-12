@@ -48,11 +48,11 @@ class CSVOperations(dataAccess):
         # If the data type of data is not List, raise an exception
         # Those exceptions need to be caught when the function is called
         if not type(data) == list:
-            raise AttributeError("Add data error: Data should be a list")
+            raise AttributeError("Data should be a list.")
         # Raise an exception if the file/path doesn't exist
         # Those exceptions need to be caught when the function is called
         elif not self.file_exist():
-            raise OSError("Write data error: The file does not exist.")
+            raise OSError("The CSV file does not exist.")
         else:
             # Open the file to write
             with open(self.__file_path, 'w', newline="") as f:
