@@ -55,15 +55,16 @@ class CSVOperations(dataAccess):
             raise OSError("The CSV file does not exist.")
         else:
             # Open the file to write
-            with open(self.__file_path, 'w', newline="") as f:
+            with open(self.__file_path, "a") as f:
                 # Write all temporary data list to the file
-                writer = csv.DictWriter(f, fieldnames=self._fieldnames)
-                writer.writeheader()
-                writer.writerows(data)
+                writer = csv.writer(f, lineterminator="\n")
+                for row in data:
+                    writer.writerow(row.values())
 
 
 # op = CSVOperations('staffinfo.csv')
-# print(op.read())
+# # print(op.read())
 # new_data_01 = [{"empid": "Y413", "gender": "M", "age": 41, "sales": 200,
-# "bmi": "Obesity", "salary": 450, "birthday": "01-09-1977"}]
+# "bmi": "Obesity", "salary": 450, "birthday": "01-09-1977"}, {"empid": "Y414", "gender": "F", "age": 33, "sales": 200,
+# "bmi": "Obesity", "salary": 450, "birthday": "04-10-1985"}]
 # op.save(new_data_01)

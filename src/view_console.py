@@ -18,6 +18,14 @@ class ViewConsole(View):
         print("Succeed: %s" % text)
 
     @staticmethod
+    def warning(text):
+        print("Warning: %s" % text)
+
+    @staticmethod
+    def info(text):
+        print("Info: %s" % text)
+
+    @staticmethod
     def display_data(data):
         print("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
                   .format(Data.EMPID.name,
@@ -122,6 +130,19 @@ class ViewConsole(View):
         # plt.interactive(True)
         plt.show()
 
+    @staticmethod
+    def help_show():
+        print("USAGE:")
+        print("\tshow <-OPTION 1> <OPTION 2>")
+        print("\nOPTIONS:")
+        print("\t-b : Shows a bar graph of the total sales made by males verse the total sales made by female.")
+        print("\t-p : Shows a pie chart of the percentage of female workers verse male workers")
+        print("\t-c : Shows a scatter plot graph of peoples age verse their salary.")
+        print("\t-i : Shows a pie chart of the BMI of a set of people.")
+        print("\nEXAMPLES:")
+        print("\t{:.<35}{:<50}".format("show -a", "Show all data"))
+        print("\t{:.<35}{:<50}".format("show -b bmi", "Show bar chart of bmi"))
+        print("\t{:.<35}{:<50}".format("show -p gender", "Show pie chart of gender"))
 
 # new_data = {'Male': 75.0, 'Female': 15.0}
 # ViewConsole.plot_pie(new_data, "Gender")

@@ -19,6 +19,9 @@ class help_comm(Cmd):
     def do_quit(self,args):
         return -1
 
+    def help_select(self):
+        pass
+
     def help_add(self):
         print ("""*** OPTIONS
                 -l : This loads the information from a file. The file is given to the command as a string.

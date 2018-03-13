@@ -19,7 +19,7 @@ class Controller(Cmd):
         self._vld = DataValidator()
 
         # Available data sources
-        self._data_sources = "csv", "database", "web"
+        self._data_sources = "csv", "db", "web"
 
         # Instance of StaffData
         self._std = StaffData()
@@ -47,8 +47,15 @@ class Controller(Cmd):
                         v.success("Data source CSV is selected.")
 
                 # Code for initialise database source
-                elif input == "database":
-                    pass
+                elif input == "db":
+                    try:
+                        self._std.select_source("db")
+                    except (ConnectionError, TypeError) as e:
+                        v.error(e)
+                    except Exception as e:
+                        v.error(e)
+                    else:
+                        v.success("Data source Database is selected.")
 
                 # Code for initialise XXXX data source
                 else:
@@ -105,6 +112,8 @@ class Controller(Cmd):
         # If no data source selected, prompt user to do so.
         try:
             self._std.save_data()
+        except ValueError as e:
+            v.info(e)
         except (OSError, AttributeError) as e:
             v.error(e)
         except Exception as e:
@@ -116,41 +125,67 @@ class Controller(Cmd):
         # Get all instructions
         args = str(line).split()
 
+        # Those commands are required single arguments
+        single_commands = ["-a"]
+        # Those commands are required two arguments
+        plot_commands = ["-p", "-b"]
+        all_commands = single_commands + plot_commands
+
         # Show data table
         if args[0] == "-a":
-            v.display_data(self._std.data)
+            v.display_data(self._std.get_all_data())
 
+        elif args[0] in plot_commands:
+            try:
+                if len(args) == 1:
+                    raise AttributeError("Incomplete command line.")
+
+                if args[0] == "-p":
+                    self.show_pie(args[1])
+                if args[0] == "-b":
+                    self.show_bar(args[1])
+
+            except AttributeError as e:
+                v.error(str(e) + "\n")
+                v.help_show()
+        else:
+            v.info("Invalid command line.\n")
+            v.help_show()
+
+    def show_pie(self, line):
         # Draw Pies
-        if args[0] == "-p":
+        try:
+            if len(self._std.get_gender()) == 0 or len(self._std.get_bmi()) == 0:
+                raise ValueError("No data to display.")
             # Draw gender
-            if args[1].upper() == Data.GENDER.name:
+            if line.upper() == Data.GENDER.name:
                 v.plot_pie(self._std.get_gender(), "Gender Distribution")
             # Draw BMI
-            if args[1].upper() == Data.BMI.name:
+            if line.upper() == Data.BMI.name:
                 v.plot_pie(self._std.get_bmi(), "Body Mass Index (BMI)")
+        except ValueError as e:
+            v.info(e)
+        except Exception as e:
+            v.error(e)
 
+    def show_bar(self, line):
         # Draw Bars
-        if args[0] == "-b":
+        try:
+            if len(self._std.get_gender()) == 0 or len(self._std.get_gender()) == 0:
+                raise ValueError("No data to display.")
             # Draw gender
-            if args[1].upper() == Data.GENDER.name:
+            if line.upper() == Data.GENDER.name:
                 v.plot_bar(self._std.get_gender(), "Gender Distribution")
             # Draw BMI
-            if args[1].upper() == Data.BMI.name:
+            if line.upper() == Data.BMI.name:
                 v.plot_bar(self._std.get_bmi(), "Body Mass Index (BMI)")
+        except ValueError as e:
+            v.info(e)
+        except Exception as e:
+            v.error(e)
 
     def help_show(self):
-        print("USAGE:")
-        print("\tshow <-OPTION 1> <OPTION 2>")
-        print("\nOPTIONS:")
-        print("\t-b : Shows a bar graph of the total sales made by males verse the total sales made by female.")
-        print("\t-p : Shows a pie chart of the percentage of female workers verse male workers")
-        print("\t-c : Shows a scatter plot graph of peoples age verse their salary.")
-        print("\t-i : Shows a pie chart of the BMI of a set of people.")
-        print("\nEXAMPLES:")
-        print("{:.<35}{:<50}".format("show -a", "Show all data"))
-        print("{:.<35}{:<50}".format("show -b bmi", "Show bar chart of bmi"))
-        print("{:.<35}{:<50}".format("show -p gender", "Show pie chart of gender"))
-
+        v.help_show()
 
     def do_quit(self, line):
         v.display("Bye!")

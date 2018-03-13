@@ -1,4 +1,4 @@
-empid,gender,age,sales,bmi,salary,birthday
+EMPID,GENDER,AGE,SALES,BMI,SALARY,BIRTHDAY
 B584,M,26,565,Underweight,756,02-01-1992
 C784,F,19,785,Normal,456,06-05-1998
 C3P0,M,18,453,Overweight,586,20-12-1990
