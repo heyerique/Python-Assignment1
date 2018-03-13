@@ -1,5 +1,12 @@
+
 import re
 from data import Data
+
+#
+# Written By Vaishali Patel 
+# Contributed with  Heyerique
+#
+#
 
 class DataValidator:
 
@@ -13,20 +20,57 @@ class DataValidator:
 
     @staticmethod
     def check_empid(empid):
-        return empid
+        # Written By Vaishali Patel
+        """
+        Checks EMPID = [A-Z][0-9]{3}) e.g. B003
 
+        >>> DataValidator.validate_empid("C002")
+        True
+        """
+        if re.compile("^[A-Z][0-9]{3}$").match(empid):
+            return True
+        else:
+            return False
     @staticmethod
     def check_gender(gender):
-        return gender
+        # Written By Vaishali
+        """
+        Checks gender = M or F e.g. M or F
 
+        >>> DataValidator.validate_gender("F")
+        True
+        """
+        if re.compile("^[M|F]$").match(gender):
+            return True
+        else:
+            return False
     @staticmethod
     def check_age(age):
-        return age
+        # Written By Vaishali
+        """
+        Checks age = [0-9]{2} e.g. 0 to 99
+
+        >>> DataValidator.validate_age(str(64))
+        True
+        """
+        if re.compile("^[0-9]{2}$").match(age):
+            return True
+        else:
+            return False
 
     @staticmethod
     def check_sales(sales):
-        return sales
+        # Written By Vaishali
+        """
+        Checks Sales = [0-9]{3} e.g. 330
 
+        >>> DataValidator.validate_sales(str(999))
+        True
+        """
+        if re.compile("^[0-9]{3}$").match(sales):
+            return True
+        else:
+            return False
     @staticmethod
     def check_bmi(input_bmi):
         """
@@ -71,7 +115,19 @@ class DataValidator:
 
     @staticmethod
     def check_birthday(birthday):
-        return birthday
+       # Written By Vaishali 
+        """
+        Checks birthday = [0-9]{1,2}-[0-9]{1,2}-[0-9]{4} e.g. 2-5-1967
+
+        >>> DataValidator.validate_birthday("2-6-2014")
+        True
+        """
+        if re.compile("^([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})$").match(birthday):
+            # TODO make it smarter to get the month a days in the correct order
+            return True
+
+        else:
+            return False
 
     def check_all(self, all_data: list):
         """
