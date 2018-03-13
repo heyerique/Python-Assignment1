@@ -26,8 +26,10 @@ class ViewConsole(View):
         print("Info: %s" % text)
 
     @staticmethod
-    def display_data(data):
-        print("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
+    def display_data(data, ind = False):
+        ind_txt = "\t" if ind == True else ""
+
+        print(ind_txt + "{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
                   .format(Data.EMPID.name,
                           Data.GENDER.name,
                           Data.AGE.name,
@@ -35,9 +37,9 @@ class ViewConsole(View):
                           Data.BMI.name,
                           Data.SALARY.name,
                           Data.BIRTHDAY.name))
-        print("-" * 70)
+        print(ind_txt + ("-" * 70))
         for row in data:
-            print("{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
+            print(ind_txt + "{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
                       .format(row[Data.EMPID.name],
                               row[Data.GENDER.name],
                               row[Data.AGE.name],
@@ -133,16 +135,53 @@ class ViewConsole(View):
     @staticmethod
     def help_show():
         print("USAGE:")
-        print("\tshow <-OPTION 1> <OPTION 2>")
+        print("\tshow <-OPTION> <OBJECT>")
         print("\nOPTIONS:")
+        print("\t-t : Shows all data tables.")
         print("\t-b : Shows a bar graph of the total sales made by males verse the total sales made by female.")
         print("\t-p : Shows a pie chart of the percentage of female workers verse male workers")
         print("\t-c : Shows a scatter plot graph of peoples age verse their salary.")
         print("\t-i : Shows a pie chart of the BMI of a set of people.")
         print("\nEXAMPLES:")
-        print("\t{:.<35}{:<50}".format("show -a", "Show all data"))
+        print("\t{:.<35}{:<50}".format("show -t", "Show all data"))
         print("\t{:.<35}{:<50}".format("show -b bmi", "Show bar chart of bmi"))
         print("\t{:.<35}{:<50}".format("show -p gender", "Show pie chart of gender"))
+
+    @staticmethod
+    def help_add():
+        print("USAGE:")
+        print("\tadd <EMPID> <GENDER> <AGE> <SALES> <BMI> <SALARY> <BIRTHDAY>")
+
+        print("\nDATA FORMAT:")
+        print("\t{:.<15}{:<20}".format("EMPID", "[A-Z][0-9]{3} e.x.: M123"))
+        print("\t{:.<15}{:<20}".format("GENDER", "(M|F)  e.x.: F"))
+        print("\t{:.<15}{:<20}".format("AGE", "[0-9]{2}  e.x.: 28"))
+        print("\t{:.<15}{:<20}".format("SALES", "[0-9]{3} e.x.: 100"))
+        print("\t{:.<15}{:<20}".format("BMI", "(Normal|Overweight|Obesity|Underweight) e.x.: Normal"))
+        print("\t{:.<15}{:<20}".format("SALARY", "[0-9]{2-3} e.x.: 200"))
+        print("\t{:.<15}{:<20}".format("BIRTHDAY", "[1-31]-[1-12]-[0-9]{4} e.x.: 1990-10-21"))
+
+        print("\nEXAMPLES:")
+        print("\t{:.<60}{:<60}".format("add B123 F 28 100 normal 200 01-01-1990",
+                                         "Add a staff with specified information."))
+
+    @staticmethod
+    def help_save():
+        print("USAGE:")
+        print("\tsave")
+        print("\nDESCRIPTION:")
+        print("\tSave new data to the selected data source.")
+
+    @staticmethod
+    def help_select():
+        print("USAGE:")
+        print("\tselect <-OPTION>")
+        print("\nOPTIONS:")
+        print("\t-csv : Specify CSV as the source of data. Data will be read and saved to a CSV file.")
+        print("\t-db  : Specify Database as the source of data. Data will be read and saved to a SQLLite database.")
+        print("\nEXAMPLES:")
+        print("\t{:.<30}{:<30}".format("select -csv", "Specify CSV as the source of data."))
+        print("\t{:.<30}{:<30}".format("select -db", "Specify Database as the source of data."))
 
 # new_data = {'Male': 75.0, 'Female': 15.0}
 # ViewConsole.plot_pie(new_data, "Gender")

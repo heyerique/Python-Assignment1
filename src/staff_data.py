@@ -81,7 +81,6 @@ class StaffData:
         if self._source == None:
             raise OSError("No data source specified.")
 
-        print(self.new_data)
         if len(self.new_data) == 0:
             raise ValueError("Nothing to save.")
 

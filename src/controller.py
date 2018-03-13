@@ -18,9 +18,6 @@ class Controller(Cmd):
         # Object of DataValidator, for validating data
         self._vld = DataValidator()
 
-        # Available data sources
-        self._data_sources = "csv", "db", "web"
-
         # Instance of StaffData
         self._std = StaffData()
 
@@ -30,15 +27,17 @@ class Controller(Cmd):
         :param input: <String> Source name
         :return: None
         """
+        # Available data sources
+        options = "-csv", "-db"
         try:
             # Check if the input data source is available in this program or not
-            if input not in self._data_sources:
+            if input not in options:
                 raise ValueError("The data resource is not available.")
             else:
                 # Code for initialise CSV data source
-                if input == "csv":
+                if input == "-csv":
                     try:
-                        self._std.select_source("csv")
+                        self._std.select_source(input[1:])
                     except (CSVError, OSError) as e:
                         v.error(e)
                     except Exception as e:
@@ -47,9 +46,9 @@ class Controller(Cmd):
                         v.success("Data source CSV is selected.")
 
                 # Code for initialise database source
-                elif input == "db":
+                elif input == "-db":
                     try:
-                        self._std.select_source("db")
+                        self._std.select_source(input[1:])
                     except (ConnectionError, TypeError) as e:
                         v.error(e)
                     except Exception as e:
@@ -61,8 +60,9 @@ class Controller(Cmd):
                 else:
                     pass
         # Catch and display error message
-        except AttributeError as e:
-            v.error(e)
+        except ValueError as e:
+            v.error(str(e) + "\n")
+            v.help_select()
         except Exception as e:
             v.error(e)
 
@@ -96,7 +96,10 @@ class Controller(Cmd):
                     raise ValueError("The following field(s) is invalid:\n%s" % e_str)
                 else:
                     self._std.add_data(result)
-        except (AttributeError, ValueError, CSVError) as e:
+        except (AttributeError, ValueError) as e:
+            v.error(str(e) + "\n")
+            v.help_add()
+        except CSVError as e:
             v.error(e)
         except Exception as e:
             v.error(e)
@@ -132,20 +135,29 @@ class Controller(Cmd):
         all_commands = single_commands + plot_commands
 
         # Show data table
-        if args[0] == "-a":
-            v.display_data(self._std.get_all_data())
+        if args[0] == "-t":
+            if len(self._std.data) == 0 and len(self._std.new_data) == 0:
+                v.info("No data to display.")
+            if not len(self._std.data) == 0:
+                v.display("ORIGINAL DATA:")
+                v.display_data(self._std.data, ind = True)
+            if not len(self._std.new_data) == 0:
+                v.display("\nNEW DATA:")
+                v.display_data(self._std.new_data, ind = True)
+                v.display("\n(Input command \"save\" to save the new data)")
+
 
         elif args[0] in plot_commands:
             try:
                 if len(args) == 1:
-                    raise AttributeError("Incomplete command line.")
+                    raise IndexError("Incomplete command line.")
 
                 if args[0] == "-p":
                     self.show_pie(args[1])
                 if args[0] == "-b":
                     self.show_bar(args[1])
 
-            except AttributeError as e:
+            except IndexError as e:
                 v.error(str(e) + "\n")
                 v.help_show()
         else:
@@ -187,9 +199,21 @@ class Controller(Cmd):
     def help_show(self):
         v.help_show()
 
+    def help_add(self):
+        v.help_add()
+
+    def help_save(self):
+        v.help_save()
+
+    def help_select(self):
+        v.help_select()
+
     def do_quit(self, line):
-        v.display("Bye!")
-        return True
+        if not line == "-f" and not len(self._std.new_data) == 0:
+            v.warning("The new data hasn't been saved. Enter \"quit -f\" to quit without saving.")
+        else:
+            v.display("Thanks for using. Bye!")
+            return True
 
 
 if __name__ == "__main__":

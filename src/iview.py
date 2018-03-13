@@ -40,7 +40,7 @@ class View(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def display_data(data):
+    def display_data(data, ind = False):
         """
         Output data
         :param text: A text string
