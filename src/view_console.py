@@ -49,7 +49,7 @@ class ViewConsole(View):
                           row[Data.BIRTHDAY.name]))
 
     @staticmethod
-    def import_result_title(ind=False):
+    def import_result_header(ind=False):
         ind_txt = "\t" if ind is True else ""
         print(ind_txt + "{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}{:<9}"
               .format(Data.EMPID.name,

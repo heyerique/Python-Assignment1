@@ -40,10 +40,55 @@ class View(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
+    def warning(text):
+        """
+        Output Warning
+        :param text: A text string
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def info(text):
+        """
+        Output Info
+        :param text: A text string
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
     def display_data(data, ind=False):
         """
         Output data
         :param data: (list)
+        :param ind: (Boolean)
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def import_result_header(ind=False):
+        """
+        display the header of the table
+        :param ind: (Boolean)
+        :return: None
+        :Author: Zhiming Liu
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def import_result_row(row, ind=False):
+        """
+        display a row of the table
+        :param row: (list)
         :param ind: (Boolean)
         :return: None
         :Author: Zhiming Liu
@@ -84,4 +129,34 @@ class View(metaclass=ABCMeta):
         :return: None
         :Author: Zhiming Liu
         """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def help_show():
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def help_select():
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def help_add():
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def help_import():
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def help_save():
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def help_quit():
         pass

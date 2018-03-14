@@ -34,8 +34,8 @@ def validate_salary(salary):
 # 4
 def validate_all(raw_data):
     """
-    >>> validate_all(["T123", "M", "28", "100", "heisobesity", "$350", "11-09-1990"])
-    ['T123', 'M', '28', 100, 'Obesity', 350, '11-09-1990']
+    >>> validate_all(["T123", "M", "28", "100", "obesity", "350", "11-09-1990"])
+    ['T123', 'M', 28, 100, 'Obesity', 350, '11-9-1990']
     """
     v = DataValidator()
     return v.check_all(raw_data)
@@ -43,9 +43,9 @@ def validate_all(raw_data):
 # 5
 def add_data(data):
     """
-    >>> add_data(["T123", "M", "28", "100", "Obesity", "350", "11-09-1990"]) #doctest: +NORMALIZE_WHITESPACE
+    >>> add_data(["T123", "M", "28", "100", "Obesity", "350", "11-9-1990"]) #doctest: +NORMALIZE_WHITESPACE
     [{'EMPID': 'T123', 'GENDER': 'M', 'AGE': '28', 'SALES': '100', 'BMI': 'Obesity',
-    'SALARY': '350', 'BIRTHDAY': '11-09-1990'}]
+    'SALARY': '350', 'BIRTHDAY': '11-9-1990'}]
     """
     sd = StaffData()
     sd.add_data(data)

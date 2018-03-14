@@ -125,7 +125,7 @@ class Controller(Cmd):
                 csv = CSVOperations(args[1])
                 import_data = csv.read()
                 View.display("IMPORTING RESULT:")
-                View.import_result_title(True)
+                View.import_result_header(True)
                 for d in import_data:
                     raw_data_row = list(d.values())
                     try:
