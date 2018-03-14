@@ -148,7 +148,6 @@ class Controller(Cmd):
             View.info("Invalid command.")
             View.help_import()
 
-
     def do_save(self, arg):
         """
         Save data to specified data source
