@@ -42,7 +42,7 @@ class DataValidator:
         Check validation of gender
         :param gender: <String>
         :return: washed data
-        :Author: Zhiming Liu
+        :Author: Vaishali Patel
         """
         pattern_01 = r"^(?P<gender>F\w*|M\w*)$"
         pattern_02 = r"^(?P<gender>girl|boy)$"
@@ -64,7 +64,7 @@ class DataValidator:
         Check validation of age
         :param age: <String>
         :return: washed data
-        :Author: Zhiming Liu
+        :Author: Vaishali Patel
         """
         pattern = r"^(?P<age>[0-9]{2})$"
         match_obj = re.match(pattern, age)
