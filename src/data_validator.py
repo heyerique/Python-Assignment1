@@ -39,7 +39,7 @@ class DataValidator:
         return None
 
     @staticmethod
-    def check_gender(gender):
+    def check_gender (gender):
         return gender
 
     @staticmethod
@@ -124,4 +124,5 @@ class DataValidator:
 
 # print(DataValidator.check_bmi("jbjndsoidiri88888normaljdjdjd"))
 # v = DataValidator()
-# print(v.check_all("$001TT TW"))
+# print(DataValidator.check_gender("FEMALE"))
+# print(DataValidator.check_empid("E111"))
