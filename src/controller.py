@@ -142,7 +142,7 @@ class Controller(Cmd):
         # Those commands are required single arguments
         # single_commands = ["-a"]
         # Those commands are required two arguments
-        plot_commands = ["-p", "-b"]
+        plot_commands = ["-p", "-b", "-c"]
 
         # Show data table
         if args[0] == "-t":
@@ -165,6 +165,8 @@ class Controller(Cmd):
                     self.show_pie(args[1])
                 if args[0] == "-b":
                     self.show_bar(args[1])
+                if args[0] == "-c":
+                    self.show_scatter(args[1])
 
             except IndexError as e:
                 View.error(str(e) + "\n")
@@ -200,6 +202,24 @@ class Controller(Cmd):
             # Draw BMI
             if line.upper() == Data.BMI.name:
                 View.plot_bar(self._std.get_bmi(), "Body Mass Index (BMI)")
+        except ValueError as e:
+            View.info(e)
+        except Exception as e:
+            View.error(e)
+
+    # Author: Vaishali Patel
+
+    def show_Scatter(self, line):
+        # Draw Line Scatter
+        try:
+            if len(self._std.get_gender()) == 0 or len(self._std.get_gender()) == 0:
+                raise ValueError("No data to display.")
+            # Draw gender
+            if line.upper() == Data.GENDER.name:
+                View.plot_bar(self._std.get_gender(), "Gender Distribution")
+            # Draw BMI
+            if line.upper() == Data.SALARY.name:
+                View.plot_bar(self._std.get_salary(), "Body Mass Index (SALARY)")
         except ValueError as e:
             View.info(e)
         except Exception as e:

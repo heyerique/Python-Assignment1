@@ -132,6 +132,36 @@ class ViewConsole(View):
         # plt.interactive(True)
         plt.show()
 
+    # Author: Vaishali Patel
+
+    @staticmethod
+    def plot_scatter(data, title=""):
+        # Get labels and sizes from the data
+        labels, values = list (data.keys ()), list (data.values ())
+
+        # Show numbers on labels
+        index = 0
+        while index < len (labels):
+            labels[id] = "{0} ({1})".format (labels[index], values[index])
+            index += 1
+
+        # Create a figure and a set of subplots
+        fq, ax = plt.subplots ()
+
+        # Set labels, start angle, and the label format (e.g.: 35.0%)
+        ax.pie (values, labels=labels, startangle=90, autopct="%0.1f%%")
+
+        # Equal aspect ratio ensures that pie is drawn as a circle.
+        ax.axis ("equal")
+
+        # If the title is set, then convert to uppercase and display it
+        if not title == "":
+            plt.title (title.upper ())
+
+        # Set of an interactive diagram is required
+        # plt.interactive(True)
+        plt.show ()
+
     @staticmethod
     def help_show():
         print("USAGE:")
@@ -146,6 +176,7 @@ class ViewConsole(View):
         print("\t{:.<35}{:<50}".format("show -t", "Show all data"))
         print("\t{:.<35}{:<50}".format("show -b bmi", "Show bar chart of bmi"))
         print("\t{:.<35}{:<50}".format("show -p gender", "Show pie chart of gender"))
+        print ("\t{:.<35}{:<50}".format ("show -c salary", "Show scatter line chart of "))
 
     @staticmethod
     def help_add():

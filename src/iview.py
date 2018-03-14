@@ -85,3 +85,16 @@ class View(metaclass=ABCMeta):
         :Author: Zhiming Liu
         """
         pass
+
+
+    @staticmethod
+    @abstractmethod
+    def plot_Scatter(data, title=""):
+        """
+        Plot a Scatter bar chart for men vs women
+        :param data: dictionary,
+        :param title: string
+        :return: None
+        :Author: Vaishali Patel
+        """
+        pass
