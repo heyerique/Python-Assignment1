@@ -2,6 +2,7 @@ from data import Data
 from csv_operations import CSVOperations
 from database_conn import Database
 
+
 class StaffData:
     """
     For data related operations
@@ -11,7 +12,7 @@ class StaffData:
         self.new_data = []
         self._source = None
 
-    def select_source(self, source):
+    def select_source(self, source, file_path=None, create=False):
         """
         Initialise the data source
         :param source: <String> source
@@ -20,7 +21,7 @@ class StaffData:
         """
         # Set _self as an object of data operation when it hasn't been set
         if source == "csv":
-            self._source = CSVOperations("staffinfo.csv")
+            self._source = CSVOperations(file_path, create)
             self.load_data()
         if source == "db":
             self._source = Database()

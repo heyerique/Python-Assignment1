@@ -1,7 +1,8 @@
 import csv
-from os import path
+from os import path, makedirs
 from idata_access import dataAccess
 from data import Data
+
 
 class CSVOperations(dataAccess):
     """
@@ -9,16 +10,37 @@ class CSVOperations(dataAccess):
     :Author: Zhiming Liu
     """
     # CSV file path
+    __path = None
     __file_path = None
+    __file_name = None
 
     # The header of data field in the CSV file. Also for data dictionaries
     _fieldnames = None
 
-    def __init__(self, file_path):
-        # Initialise the file path
-        self.__file_path = file_path
+    def __init__(self, file_path, create=False):
+
+        self.__path = file_path
+        paths = str(file_path).split("/")
+        self.__file_path = "/".join(paths[0:-1])
+        self.__file_name = paths[-1]
+
         # Initialise fieldnames
         self._fieldnames = list(map(lambda i : i.name, Data))
+        # Create the file if it doesn't exist
+        # chdir("./")
+        if create == True:
+            self.create_file()
+
+    def create_file(self):
+        if not path.exists(self.__file_path):
+            makedirs(self.__file_path)
+        # chdir(self.__file_path)
+        if not self.file_exist():
+            with open(self.__path, "w+") as f:
+                writer = csv.writer(f, lineterminator="\n")
+                writer.writerow(list(d.name for d in Data))
+        else:
+            raise OSError("Can't create the file. The file already exists.")
 
     def read(self):
         """
@@ -26,7 +48,7 @@ class CSVOperations(dataAccess):
         :return: None
         """
         # Try to open the file for read. newline to avoid different newline signs
-        with open(self.__file_path, newline="") as f:
+        with open(self.__path, newline="") as f:
             # Try to read data with given fieldnames
             reader = csv.DictReader(f, fieldnames=self._fieldnames)
             # Save data in an array, but ignore the first line
@@ -39,7 +61,7 @@ class CSVOperations(dataAccess):
         Check if the giving file/path exists
         :return:
         """
-        return path.exists(self.__file_path)
+        return path.exists(self.__path)
 
     def save(self, data: list):
         """
@@ -55,14 +77,14 @@ class CSVOperations(dataAccess):
             raise OSError("The CSV file does not exist.")
         else:
             # Open the file to write
-            with open(self.__file_path, "a") as f:
+            with open(self.__path, "a") as f:
                 # Write all temporary data list to the file
                 writer = csv.writer(f, lineterminator="\n")
                 for row in data:
                     writer.writerow(row.values())
 
 
-# op = CSVOperations('staffinfo.csv')
+# op = CSVOperations('files/data/staffinfo3.csv', True)
 # # print(op.read())
 # new_data_01 = [{"empid": "Y413", "gender": "M", "age": 41, "sales": 200,
 # "bmi": "Obesity", "salary": 450, "birthday": "01-09-1977"}, {"empid": "Y414", "gender": "F", "age": 33, "sales": 200,

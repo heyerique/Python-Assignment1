@@ -21,23 +21,33 @@ class Controller(Cmd):
         # Instance of StaffData
         self._std = StaffData()
 
-    def do_select(self, input):
+    def do_select(self, line):
         """
         Select a data source
         :param input: <String> Source name
         :return: None
+        :Author: Zhiming Liu
         """
         # Available data sources
         options = "-csv", "-db"
+        args = str(line).split()
+
         try:
             # Check if the input data source is available in this program or not
-            if input not in options:
+            if args[0] not in options:
                 raise ValueError("The data resource is not available.")
             else:
                 # Code for initialise CSV data source
-                if input == "-csv":
+                if args[0] == "-csv":
                     try:
-                        self._std.select_source(input[1:])
+                        if len(args) == 1:
+                            self._std.select_source(args[0][1:], "staffinfo.csv")
+                            v.warning("No CSV file path specified. A default file \"staffinfo.csv\" will be used.")
+                        elif len(args) == 2:
+                            self._std.select_source(args[0][1:], args[1])
+                        elif len(args) == 3:
+                            if args[1] == "-a":
+                                self._std.select_source(args[0][1:], args[2], True)
                     except (CSVError, OSError) as e:
                         v.error(e)
                     except Exception as e:
@@ -46,9 +56,9 @@ class Controller(Cmd):
                         v.success("Data source CSV is selected.")
 
                 # Code for initialise database source
-                elif input == "-db":
+                elif args[0] == "-db":
                     try:
-                        self._std.select_source(input[1:])
+                        self._std.select_source(args[0][1:])
                     except (ConnectionError, TypeError) as e:
                         v.error(e)
                     except Exception as e:

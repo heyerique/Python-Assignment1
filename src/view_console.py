@@ -175,13 +175,20 @@ class ViewConsole(View):
     @staticmethod
     def help_select():
         print("USAGE:")
-        print("\tselect <-OPTION>")
-        print("\nOPTIONS:")
+        print("\tselect <-OPTION 1> <-OPTION 2> <FILENAME>")
+        print("\nOPTIONS 1:")
         print("\t-csv : Specify CSV as the source of data. Data will be read and saved to a CSV file.")
         print("\t-db  : Specify Database as the source of data. Data will be read and saved to a SQLLite database.")
+        print("\nOPTIONS 2:")
+        print("\t-a : (Optional) Create the file if it doesn't exist.")
+        print("\nFILENAME:")
+        print("\tWhen select \"-csv\", FILENAME need to be provided. Otherwise a default file will be used.")
         print("\nEXAMPLES:")
-        print("\t{:.<30}{:<30}".format("select -csv", "Specify CSV as the source of data."))
-        print("\t{:.<30}{:<30}".format("select -db", "Specify Database as the source of data."))
+        print("\t{:.<60}{:<30}".format("select -csv", "Specify CSV as the source of data."))
+        print("\t{:.<60}{:<100}".format("select -csv -a files/data/staffinfo.csv",
+                                       "Specify a CSV file as the source of data. "
+                                       "Create one if the path doesn't exist."))
+        print("\t{:.<60}{:<30}".format("select -db", "Specify Database as the source of data."))
 
 # new_data = {'Male': 75.0, 'Female': 15.0}
 # ViewConsole.plot_pie(new_data, "Gender")
