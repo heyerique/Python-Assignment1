@@ -4,6 +4,7 @@ from data import Data
 from data_validator import DataValidator
 from staff_data import StaffData
 
+
 class MainTests(TestCase):
     def setUp(self):
         pass
@@ -17,34 +18,34 @@ class MainTests(TestCase):
 
     def test_02(self):
         csv = CSVOperations("staffinfo.csv")
-        items = ["EMPID", "AGE", "GENDER", "SALES", "BMI", "SALARY", "BIRTHDAY"]
+        items = ["EMPID", "GENDER", "AGE", "SALES", "BMI", "SALARY", "BIRTHDAY"]
         self.assertListEqual(csv._fieldnames, items)
 
     def test_03(self):
-        items = ["EMPID", "AGE", "GENDER", "SALES", "BMI", "SALARY", "BIRTHDAY"]
-        data_keys = list(map(lambda i : i.name, Data))
+        items = ["EMPID", "GENDER", "AGE", "SALES", "BMI", "SALARY", "BIRTHDAY"]
+        data_keys = list(map(lambda i: i.name, Data))
         self.assertListEqual(data_keys, items)
 
     def test_04(self):
         values = [0, 1, 2, 3, 4, 5, 6]
-        data_values = list(map(lambda i : i.value, Data))
+        data_values = list(map(lambda i: i.value, Data))
         self.assertListEqual(data_values, values)
 
     def test_05(self):
         csv = CSVOperations("staffinfo2.csv")
-        self.assertTrue(csv.file_exist() == False)
+        self.assertFalse(csv.file_exist())
 
     def test_06(self):
-        self.assertTrue(hasattr(CSVOperations, "read") == True )
+        self.assertTrue(hasattr(CSVOperations, "read"))
 
     def test_07(self):
-        self.assertTrue(hasattr(CSVOperations, "save") == True)
+        self.assertTrue(hasattr(CSVOperations, "save"))
 
     def test_08(self):
-        self.assertTrue(callable(getattr(CSVOperations, "read")) == True)
+        self.assertTrue(callable(getattr(CSVOperations, "read")))
 
     def test_09(self):
-        self.assertTrue(callable(getattr(CSVOperations, "save")) == True)
+        self.assertTrue(callable(getattr(CSVOperations, "save")))
 
     def test_10(self):
         vld = DataValidator()
@@ -66,7 +67,7 @@ class MainTests(TestCase):
 
     def test_15(self):
         staff_data = StaffData()
-        staff_data.select_source("csv")
+        staff_data.select_source("csv", "staffinfo.csv")
         self.assertIsInstance(staff_data._source, CSVOperations)
 
     def test_16(self):
@@ -92,5 +93,5 @@ class MainTests(TestCase):
         self.assertTrue(staff_data.data_exist(new_data))
 
 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()

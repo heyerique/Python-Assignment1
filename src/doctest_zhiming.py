@@ -3,12 +3,13 @@ from data import Data
 from data_validator import DataValidator
 from staff_data import StaffData
 from view_console import ViewConsole as view
+from csv_operations import CSVOperations
 
 # 1
 def get_keys():
     """
     >>> get_keys()
-    ['EMPID', 'AGE', 'GENDER', 'SALES', 'BMI', 'SALARY', 'BIRTHDAY']
+    ['EMPID', 'GENDER', 'AGE', 'SALES', 'BMI', 'SALARY', 'BIRTHDAY']
     """
     return list(map(lambda i: i.name, Data))
 
@@ -33,8 +34,8 @@ def validate_salary(salary):
 # 4
 def validate_all(raw_data):
     """
-    >>> validate_all(["T123", 28, "M", 100, "heisobesity", "$350", "11-09-1990"])
-    ['T123', 28, 'M', 100, 'Obesity', 350, '11-09-1990']
+    >>> validate_all(["T123", "M", "28", "100", "heisobesity", "$350", "11-09-1990"])
+    ['T123', 'M', '28', 100, 'Obesity', 350, '11-09-1990']
     """
     v = DataValidator()
     return v.check_all(raw_data)
@@ -42,13 +43,13 @@ def validate_all(raw_data):
 # 5
 def add_data(data):
     """
-    >>> add_data(["T123", 28, "M", 100, "Obesity", "350", "11-09-1990"]) #doctest: +NORMALIZE_WHITESPACE
-    [{'EMPID': 'T123', 'AGE': 28, 'GENDER': 'M', 'SALES': 100, 'BMI': 'Obesity',
+    >>> add_data(["T123", "M", "28", "100", "Obesity", "350", "11-09-1990"]) #doctest: +NORMALIZE_WHITESPACE
+    [{'EMPID': 'T123', 'GENDER': 'M', 'AGE': '28', 'SALES': '100', 'BMI': 'Obesity',
     'SALARY': '350', 'BIRTHDAY': '11-09-1990'}]
     """
     sd = StaffData()
     sd.add_data(data)
-    return sd.data
+    return sd.new_data
 
 # 6
 def get_gender():
@@ -58,9 +59,9 @@ def get_gender():
     """
     sd = StaffData()
     v = DataValidator()
-    sd.add_data(v.check_all(["T133", 28, "M", 100, "Obesity", "350", "11-09-1990"]))
-    sd.add_data(v.check_all(["T134", 29, "M", 150, "Normal", "300", "12-08-1989"]))
-    sd.add_data(v.check_all(["T135", 30, "F", 100, "Normal", "300", "13-07-1988"]))
+    sd.add_data(v.check_all(["T133", "M", "28", "100", "Obesity", "350", "11-09-1990"]))
+    sd.add_data(v.check_all(["T134", "M", "29", "150", "Normal", "300", "12-08-1989"]))
+    sd.add_data(v.check_all(["T135", "F", "30", "100", "Normal", "300", "13-07-1988"]))
     return sd.get_gender()
 
 # 7
@@ -71,9 +72,9 @@ def get_bmi():
     """
     sd = StaffData()
     v = DataValidator()
-    sd.add_data(v.check_all(["T133", 28, "M", 100, "Obesity", "350", "11-09-1990"]))
-    sd.add_data(v.check_all(["T134", 29, "M", 150, "Normal", "300", "12-08-1989"]))
-    sd.add_data(v.check_all(["T135", 30, "F", 100, "Normal", "300", "13-07-1988"]))
+    sd.add_data(v.check_all(["T133", "M", "28", "100", "Obesity", "350", "11-09-1990"]))
+    sd.add_data(v.check_all(["T134", "M", "29", "150", "Normal", "300", "12-08-1989"]))
+    sd.add_data(v.check_all(["T135", "F", "30", "100", "Normal", "300", "13-07-1988"]))
     return sd.get_bmi()
 
 # 8
@@ -85,7 +86,15 @@ def display_error(txt):
     return view.error(txt)
 
 # 9
+def create_file(filename):
+    """
+    >>> create_file("staffinfo2.csv")
+    []
+    """
+    csv = CSVOperations(filename, True)
+    return csv.read()
 # 10
+
 # 11
 # 12
 # 13
