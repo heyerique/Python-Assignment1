@@ -49,6 +49,33 @@ class ViewConsole(View):
                           row[Data.BIRTHDAY.name]))
 
     @staticmethod
+    def import_result_title(ind=False):
+        ind_txt = "\t" if ind is True else ""
+        print(ind_txt + "{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}{:<9}"
+              .format(Data.EMPID.name,
+                      Data.GENDER.name,
+                      Data.AGE.name,
+                      Data.SALES.name,
+                      Data.BMI.name,
+                      Data.SALARY.name,
+                      Data.BIRTHDAY.name,
+                      "RESULT"))
+        print(ind_txt + ("-" * 80))
+
+    @staticmethod
+    def import_result_row(row, ind=False):
+        ind_txt = "\t" if ind is True else ""
+        print(ind_txt + "{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}{:<9}"
+              .format(row[Data.EMPID.value],
+                      row[Data.GENDER.value],
+                      row[Data.AGE.value],
+                      row[Data.SALES.value],
+                      row[Data.BMI.value],
+                      row[Data.SALARY.value],
+                      row[Data.BIRTHDAY.value],
+                      row[-1]))
+
+    @staticmethod
     def plot_pie(data, title=""):
         # Get labels and sizes from the data
         labels, values = list(data.keys()), list(data.values())
@@ -200,6 +227,15 @@ class ViewConsole(View):
         print("\t{:.<20}{:<60}".format("quit", "Normal quit."))
         print("\t{:.<20}{:<60}".format("quit -f", "Force quitting the system without saving new data."))
 
+    @staticmethod
+    def help_import():
+        print("USAGE:")
+        print("\timport <-OPTION> <FILENAME>")
+        print("\nOPTIONS:")
+        print("\t-csv : Import from a CSV file.")
+        print("\nEXAMPLES:")
+        print("\t{:.<30}{:<60}".format("quit -csv testingdata.csv",
+                                       "Import data from a CSV file \"testingdata.csv\"."))
 
 # new_data = {'Male': 75.0, 'Female': 15.0}
 # ViewConsole.plot_pie(new_data, "Gender")

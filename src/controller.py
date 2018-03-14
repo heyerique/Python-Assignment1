@@ -4,6 +4,7 @@ from data_validator import DataValidator
 from view_console import ViewConsole as View
 from staff_data import StaffData
 from data import Data
+from csv_operations import CSVOperations
 
 
 class Controller(Cmd):
@@ -117,6 +118,37 @@ class Controller(Cmd):
         else:
             View.success("Add data")
 
+    def do_import(self, line):
+        args = list(arg.lower() for arg in str(line).split())
+        if args[0] == "-csv" and len(args) == 2:
+            try:
+                csv = CSVOperations(args[1])
+                import_data = csv.read()
+                View.display("IMPORTING RESULT:")
+                View.import_result_title(True)
+                for d in import_data:
+                    raw_data_row = list(d.values())
+                    try:
+                        washed = self._vld.check_all(list(d.values()))
+                        if None in washed:
+                            raw_data_row.append("Fail")
+                        else:
+                            self._std.add_data(washed)
+                            raw_data_row.append("Pass")
+                    except ValueError:
+                        raw_data_row.append("Fail")
+                    except AttributeError:
+                        raw_data_row.append("Fail")
+
+                    View.import_result_row(raw_data_row, True)
+
+            except Exception as e:
+                View.error(e)
+        else:
+            View.info("Invalid command.")
+            View.help_import()
+
+
     def do_save(self, arg):
         """
         Save data to specified data source
@@ -224,6 +256,10 @@ class Controller(Cmd):
     @staticmethod
     def help_quit():
         View.help_quit()
+
+    @staticmethod
+    def help_import():
+        View.help_import()
 
     def do_quit(self, line):
         arg = str(line).lower()

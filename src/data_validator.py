@@ -25,7 +25,7 @@ class DataValidator:
 
         # Regular expression checks if there are combination of [A-Z][0-9]{3} e.r E101
         # :P<empid> Assign to the group with the keyword 'empid'
-        pattern = r"\D*(?P<empid>[A-Z][0-9]{3})\D*"
+        pattern = r"^(?P<empid>[A-Z][0-9]{3})$"
         match_obj = re.search(pattern, empid, re.I)
         if match_obj:
             # Get the matched word
@@ -83,7 +83,7 @@ class DataValidator:
         """
         # Regular expression checks if there are consecutive 3 numbers
         # :P<salary> Assign to the group with the keyword 'salary'
-        pattern = r"\D*(?P<sales>[0-9]{2,3})\D*"
+        pattern = r"^(?P<sales>[0-9]{2,3})$"
         match_obj = re.search(pattern, sales)
         if match_obj:
             # Convert the match to integer and return
@@ -123,7 +123,7 @@ class DataValidator:
         """
         # Regular expression checks if there are consecutive 3 numbers
         # :P<salary> Assign to the group with the keyword 'salary'
-        pattern = r"\D*(?P<salary>[0-9]{2,3})\D*"
+        pattern = r"^(?P<salary>[0-9]{2,3})$"
         match_obj = re.search(pattern, input_salary)
         if match_obj:
             # Convert the match to integer and return
