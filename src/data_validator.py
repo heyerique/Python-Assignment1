@@ -12,8 +12,31 @@ class DataValidator:
         )
 
     @staticmethod
-    def check_empid(empid):
-        return empid
+    def check_empid(input_empid):
+        """
+
+        Check if the input empID is valid.
+        :param input_empid: user input
+        :return: Formatted empid if the input one is valid, otherwise, return None
+        Author: Vaishali Patel
+        """
+
+        # Convert the input data to string
+        empid = str(input_empid)
+
+
+        # Regular expression checks if there are combination of [A-Z][0-9]{3} e.r E101
+        #:P<empid> Assign to the group with the keyword 'empid'
+        pattern = r"\D*(?<empid>[A-Z][0-9]{3})\D*"
+        match_obj = re.search(pattern, empid, re.I)
+        if match_obj:
+            # Get the matched word
+            empid = match_obj.group("empid")
+            # Convert the first letter to Uppercase and lowercase for rest of them
+
+            return empid.upper()
+        # Return None if no match found
+        return None
 
     @staticmethod
     def check_gender(gender):
