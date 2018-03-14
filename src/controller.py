@@ -31,7 +31,7 @@ class Controller(Cmd):
         """
         # Available data sources
         options = "-csv", "-db"
-        args = str(line).split()
+        args = list(arg.lower() for arg in str(line).split())
 
         try:
             # Check if the input data source is available in this program or not
@@ -84,7 +84,7 @@ class Controller(Cmd):
         :return: None
         """
         # Split the input argument to obtain the data
-        raw_data = str(line).split()
+        raw_data = list(arg.lower() for arg in str(line).split())
 
         try:
             # Check if input data has 7 data fields
@@ -137,7 +137,7 @@ class Controller(Cmd):
 
     def do_show(self, line):
         # Get all instructions
-        args = str(line).split()
+        args = list(arg.lower() for arg in str(line).split())
 
         # Those commands are required single arguments
         # single_commands = ["-a"]
@@ -226,7 +226,8 @@ class Controller(Cmd):
         View.help_quit()
 
     def do_quit(self, line):
-        if not line == "-f" and not len(self._std.new_data) == 0:
+        arg = str(line).lower()
+        if not arg == "-f" and not len(self._std.new_data) == 0:
             View.warning("The new data hasn't been saved. Enter \"quit -f\" to quit without saving.")
         else:
             View.display("Thanks for using. Bye!")
