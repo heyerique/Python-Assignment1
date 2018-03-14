@@ -1,5 +1,5 @@
 import unittest
-from data_validator import *
+from src.data_validator import *
 
 # Author: Vaishali Patel
 class DataValidatorTests(unittest.TestCase):
@@ -11,18 +11,28 @@ class DataValidatorTests(unittest.TestCase):
     def setUp(self):
         # be executed before each test
         print("set up")
-        self.data = [['A011', 'M', '29', '458', 'Normal', '20', '05-03-1999'],
-                     ['C224', 'F', '7', '679', 'Overweight', '240', '12-1-1978'],
-                     ['E3', 'Male', 'seven', '99,9', 'obesity', '6,00', '2-11-19']]
+		
+		self.data = {'empid': 'A011','gender': 'M', 'Aae': 37, 'sales': '458','bmi': 'Normal',
+					'salary': '200', 'birthday': '05-03-1999'},
+					
+					{'empid': 'C224','gender': 'F', 'Aae': 7, 'sales': '350','bmi': 'Overweight',
+					'salary': '240', 'birthday': '12-1-1978'},
+					
+					{'empid': 'E3','gender': 'Male', 'Aae': 'Seven', 'sales': '6000','bmi': 'Obesity',
+					'salary': '20.50', 'birthday': '20-09-1998'}
+		               
+        self.data_2 = {'empid': 'E001','gender': 'F', 'Aae': '20', 'sales': '350','bmi': 'Normal',
+					'salary': '200', 'birthday': '02-10-1997'}
+					
+        self.data_3 = {'empid': ' ','gender': ' ', 'Aae': ' ', 'sales': ' ','bmi': ' ',
+					'salary': ' ', 'birthday': ' '}
 
-        self.data_2 = [['E001', 'F', '20', '350', 'Normal', '200', '20-09-1998']]
-
-        self.data_3 = [['', '', '', '', '', '', '']]
-
-        self.data_4 = [['F001', 'Female', 'eight', '4oo', 'Overweight', '280', '30-06-2000']]
-
-        self.data_5 = [['@000', '*', '^', '&%&', '_', '$', '?-05-?']]
-
+        self.data_4 = {'empid': 'F001','gender': 'Female', 'Aae': 'eight', 'sales': '4oo','bmi': 'Overweight',
+					'salary': '280', 'birthday': '30-06-2000'}
+		
+        self.data_5 = {'empid': '@000','gender': '*', 'Aae': ^, 'sales': '$','bmi': '0',
+					'salary': '$$.$$', 'birthday': '??-03-????'}
+		
     def tearDown(self):
         # be executed after each test case
         print("teardown")
