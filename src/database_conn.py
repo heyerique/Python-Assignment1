@@ -111,7 +111,6 @@ class Database(dataAccess):
 
     def save(self, data):
         for d in data:
-            print(d)
             self.insert_employee_data(d)
 
     def read(self):
