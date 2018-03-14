@@ -15,7 +15,9 @@ class StaffData:
     def select_source(self, source, file_path=None, create=False):
         """
         Initialise the data source
-        :param source: <String> source
+        :param source: <String>
+        :param file_path: <Sting>
+        :param create: <Boolean>
         :return: None
         :Author: Zhiming Liu
         """
@@ -35,7 +37,6 @@ class StaffData:
         """
         # When fetch data from the data source
         # Move existed data in self.data to the end of the list
-        #if len(self.data) == 0:
         self.data = self._source.read()
         # else:
         #     old_data = self.data
@@ -52,7 +53,7 @@ class StaffData:
         if not self.data_exist(data):
             # Append to the temporary data
             # self.data.append({d.name:data[d.value] for d in Data})
-            self.new_data.append({d.name:data[d.value] for d in Data})
+            self.new_data.append({d.name: data[d.value] for d in Data})
         else:
             # If the EMPID is exists, raise an exception
             raise AttributeError("The EMPID already existed.")
@@ -79,7 +80,7 @@ class StaffData:
         :return: None
         :Author: Zhiming Liu
         """
-        if self._source == None:
+        if self._source is None:
             raise OSError("No data source specified.")
 
         if len(self.new_data) == 0:

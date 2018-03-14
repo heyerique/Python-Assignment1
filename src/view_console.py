@@ -26,27 +26,27 @@ class ViewConsole(View):
         print("Info: %s" % text)
 
     @staticmethod
-    def display_data(data, ind = False):
-        ind_txt = "\t" if ind == True else ""
+    def display_data(data, ind=False):
+        ind_txt = "\t" if ind is True else ""
 
         print(ind_txt + "{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
-                  .format(Data.EMPID.name,
-                          Data.GENDER.name,
-                          Data.AGE.name,
-                          Data.SALES.name,
-                          Data.BMI.name,
-                          Data.SALARY.name,
-                          Data.BIRTHDAY.name))
+              .format(Data.EMPID.name,
+                      Data.GENDER.name,
+                      Data.AGE.name,
+                      Data.SALES.name,
+                      Data.BMI.name,
+                      Data.SALARY.name,
+                      Data.BIRTHDAY.name))
         print(ind_txt + ("-" * 70))
         for row in data:
             print(ind_txt + "{:<8}{:<9}{:<6}{:<8}{:<15}{:<9}{:<15}"
-                      .format(row[Data.EMPID.name],
-                              row[Data.GENDER.name],
-                              row[Data.AGE.name],
-                              row[Data.SALES.name],
-                              row[Data.BMI.name],
-                              row[Data.SALARY.name],
-                              row[Data.BIRTHDAY.name]))
+                  .format(row[Data.EMPID.name],
+                          row[Data.GENDER.name],
+                          row[Data.AGE.name],
+                          row[Data.SALES.name],
+                          row[Data.BMI.name],
+                          row[Data.SALARY.name],
+                          row[Data.BIRTHDAY.name]))
 
     @staticmethod
     def plot_pie(data, title=""):
@@ -54,10 +54,10 @@ class ViewConsole(View):
         labels, values = list(data.keys()), list(data.values())
 
         # Show numbers on labels
-        id = 0
-        while id < len(labels):
-            labels[id] = "{0} ({1})".format(labels[id], values[id])
-            id += 1
+        index = 0
+        while index < len(labels):
+            labels[id] = "{0} ({1})".format(labels[index], values[index])
+            index += 1
 
         # Create a figure and a set of subplots
         fq, ax = plt.subplots()
@@ -163,7 +163,7 @@ class ViewConsole(View):
 
         print("\nEXAMPLES:")
         print("\t{:.<60}{:<60}".format("add B123 F 28 100 normal 200 01-01-1990",
-                                         "Add a staff with specified information."))
+                                       "Add a staff with specified information."))
 
     @staticmethod
     def help_save():
@@ -186,8 +186,8 @@ class ViewConsole(View):
         print("\nEXAMPLES:")
         print("\t{:.<60}{:<30}".format("select -csv", "Specify CSV as the source of data."))
         print("\t{:.<60}{:<100}".format("select -csv -a files/data/staffinfo.csv",
-                                       "Specify a CSV file as the source of data. "
-                                       "Create one if the path doesn't exist."))
+                                        "Specify a CSV file as the source of data. "
+                                        "Create one if the path doesn't exist."))
         print("\t{:.<60}{:<30}".format("select -db", "Specify Database as the source of data."))
 
 # new_data = {'Male': 75.0, 'Female': 15.0}
