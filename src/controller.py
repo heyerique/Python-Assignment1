@@ -221,6 +221,10 @@ class Controller(Cmd):
     def help_select():
         View.help_select()
 
+    @staticmethod
+    def help_quit():
+        View.help_quit()
+
     def do_quit(self, line):
         if not line == "-f" and not len(self._std.new_data) == 0:
             View.warning("The new data hasn't been saved. Enter \"quit -f\" to quit without saving.")

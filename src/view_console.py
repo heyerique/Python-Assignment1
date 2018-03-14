@@ -190,6 +190,17 @@ class ViewConsole(View):
                                         "Create one if the path doesn't exist."))
         print("\t{:.<60}{:<30}".format("select -db", "Specify Database as the source of data."))
 
+    @staticmethod
+    def help_quit():
+        print("USAGE:")
+        print("\tquit <-OPTION>")
+        print("\nOPTIONS:")
+        print("\t-f : Force quitting the system without saving new data.")
+        print("\nEXAMPLES:")
+        print("\t{:.<20}{:<60}".format("quit", "Normal quit."))
+        print("\t{:.<20}{:<60}".format("quit -f", "Force quitting the system without saving new data."))
+
+
 # new_data = {'Male': 75.0, 'Female': 15.0}
 # ViewConsole.plot_pie(new_data, "Gender")
 # ViewConsole.plot_bar(new_data, "Gender")
