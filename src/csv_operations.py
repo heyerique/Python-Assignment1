@@ -1,10 +1,10 @@
 import csv
 from os import path, makedirs
-from idata_access import dataAccess
+from idata_access import IDataAccess
 from data import Data
 
 
-class CSVOperations(dataAccess):
+class CSVOperations(IDataAccess):
     """
     This is class for reading from a specified CSV file and writing new data to it
     :Author: Zhiming Liu
@@ -26,10 +26,10 @@ class CSVOperations(dataAccess):
         self.__file_name = paths[-1]
 
         # Initialise fieldnames
-        self._fieldnames = list(map(lambda i : i.name, Data))
+        self._fieldnames = list(map(lambda i: i.name, Data))
         # Create the file if it doesn't exist
         # chdir("./")
-        if create == True:
+        if create:
             self.create_file()
 
     def create_file(self):
@@ -37,7 +37,7 @@ class CSVOperations(dataAccess):
         Create the CSV file at specified path
         :return: None
         """
-        if not self.__file_path == None and not path.exists(self.__file_path):
+        if self.__file_path is not None and not path.exists(self.__file_path):
             makedirs(self.__file_path)
         # chdir(self.__file_path)
         if not self.file_exist():

@@ -40,10 +40,11 @@ class View(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def display_data(data, ind = False):
+    def display_data(data, ind=False):
         """
         Output data
-        :param text: A text string
+        :param data: (list)
+        :param ind: (Boolean)
         :return: None
         :Author: Zhiming Liu
         """

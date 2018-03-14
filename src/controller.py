@@ -1,9 +1,10 @@
 from cmd import Cmd
 from csv import Error as CSVError
 from data_validator import DataValidator
-from view_console import ViewConsole as v
+from view_console import ViewConsole as View
 from staff_data import StaffData
 from data import Data
+
 
 class Controller(Cmd):
     def __init__(self):
@@ -24,7 +25,7 @@ class Controller(Cmd):
     def do_select(self, line):
         """
         Select a data source
-        :param input: <String> Source name
+        :param line: <String> Source name
         :return: None
         :Author: Zhiming Liu
         """
@@ -42,48 +43,48 @@ class Controller(Cmd):
                     try:
                         if len(args) == 1:
                             self._std.select_source(args[0][1:], "staffinfo.csv")
-                            v.warning("No CSV file path specified. A default file \"staffinfo.csv\" will be used.")
+                            View.warning("No CSV file path specified. A default file \"staffinfo.csv\" will be used.")
                         elif len(args) == 2:
                             self._std.select_source(args[0][1:], args[1])
                         elif len(args) == 3:
                             if args[1] == "-a":
                                 self._std.select_source(args[0][1:], args[2], True)
                     except (CSVError, OSError) as e:
-                        v.error(e)
+                        View.error(e)
                     except Exception as e:
-                        v.error(e)
+                        View.error(e)
                     else:
-                        v.success("Data source CSV is selected.")
+                        View.success("Data source CSV is selected.")
 
                 # Code for initialise database source
                 elif args[0] == "-db":
                     try:
                         self._std.select_source(args[0][1:])
                     except (ConnectionError, TypeError) as e:
-                        v.error(e)
+                        View.error(e)
                     except Exception as e:
-                        v.error(e)
+                        View.error(e)
                     else:
-                        v.success("Data source Database is selected.")
+                        View.success("Data source Database is selected.")
 
                 # Code for initialise XXXX data source
                 else:
                     pass
         # Catch and display error message
         except ValueError as e:
-            v.error(str(e) + "\n")
-            v.help_select()
+            View.error(str(e) + "\n")
+            View.help_select()
         except Exception as e:
-            v.error(e)
+            View.error(e)
 
-    def do_add(self, input):
+    def do_add(self, line):
         """
         Add a new entry of data
-        :param input: <EMPID> <Age> <Gender> <Sales> <BMI> <Salary> <Birthday>
+        :param line: <EMPID> <Age> <Gender> <Sales> <BMI> <Salary> <Birthday>
         :return: None
         """
         # Split the input argument to obtain the data
-        raw_data = str(input).split()
+        raw_data = str(line).split()
 
         try:
             # Check if input data has 7 data fields
@@ -96,10 +97,10 @@ class Controller(Cmd):
                 if None in result:
                     key = 0
                     # build a list of name list
-                    items = list(map(lambda i : i.name, Data))
+                    items = list(map(lambda i: i.name, Data))
                     e_str = ""
                     while key < len(result):
-                        if result[key] == None:
+                        if result[key] is None:
                             # Left alignment
                             e_str += "{:<10}".format(items[key])
                         key += 1
@@ -107,14 +108,14 @@ class Controller(Cmd):
                 else:
                     self._std.add_data(result)
         except (AttributeError, ValueError) as e:
-            v.error(str(e) + "\n")
-            v.help_add()
+            View.error(str(e) + "\n")
+            View.help_add()
         except CSVError as e:
-            v.error(e)
+            View.error(e)
         except Exception as e:
-            v.error(e)
+            View.error(e)
         else:
-            v.success("Add data")
+            View.success("Add data")
 
     def do_save(self, arg):
         """
@@ -126,36 +127,34 @@ class Controller(Cmd):
         try:
             self._std.save_data()
         except ValueError as e:
-            v.info(e)
+            View.info(e)
         except (OSError, AttributeError) as e:
-            v.error(e)
+            View.error(e)
         except Exception as e:
-            v.error(e)
+            View.error(e)
         else:
-            v.success("Data is saved")
+            View.success("Data is saved")
 
     def do_show(self, line):
         # Get all instructions
         args = str(line).split()
 
         # Those commands are required single arguments
-        single_commands = ["-a"]
+        # single_commands = ["-a"]
         # Those commands are required two arguments
         plot_commands = ["-p", "-b"]
-        all_commands = single_commands + plot_commands
 
         # Show data table
         if args[0] == "-t":
             if len(self._std.data) == 0 and len(self._std.new_data) == 0:
-                v.info("No data to display.")
+                View.info("No data to display.")
             if not len(self._std.data) == 0:
-                v.display("ORIGINAL DATA:")
-                v.display_data(self._std.data, ind = True)
+                View.display("ORIGINAL DATA:")
+                View.display_data(self._std.data, ind=True)
             if not len(self._std.new_data) == 0:
-                v.display("\nNEW DATA:")
-                v.display_data(self._std.new_data, ind = True)
-                v.display("\n(Input command \"save\" to save the new data)")
-
+                View.display("\nNEW DATA:")
+                View.display_data(self._std.new_data, ind=True)
+                View.display("\n(Input command \"save\" to save the new data)")
 
         elif args[0] in plot_commands:
             try:
@@ -168,11 +167,11 @@ class Controller(Cmd):
                     self.show_bar(args[1])
 
             except IndexError as e:
-                v.error(str(e) + "\n")
-                v.help_show()
+                View.error(str(e) + "\n")
+                View.help_show()
         else:
-            v.info("Invalid command line.\n")
-            v.help_show()
+            View.info("Invalid command line.\n")
+            View.help_show()
 
     def show_pie(self, line):
         # Draw Pies
@@ -181,14 +180,14 @@ class Controller(Cmd):
                 raise ValueError("No data to display.")
             # Draw gender
             if line.upper() == Data.GENDER.name:
-                v.plot_pie(self._std.get_gender(), "Gender Distribution")
+                View.plot_pie(self._std.get_gender(), "Gender Distribution")
             # Draw BMI
             if line.upper() == Data.BMI.name:
-                v.plot_pie(self._std.get_bmi(), "Body Mass Index (BMI)")
+                View.plot_pie(self._std.get_bmi(), "Body Mass Index (BMI)")
         except ValueError as e:
-            v.info(e)
+            View.info(e)
         except Exception as e:
-            v.error(e)
+            View.error(e)
 
     def show_bar(self, line):
         # Draw Bars
@@ -197,32 +196,36 @@ class Controller(Cmd):
                 raise ValueError("No data to display.")
             # Draw gender
             if line.upper() == Data.GENDER.name:
-                v.plot_bar(self._std.get_gender(), "Gender Distribution")
+                View.plot_bar(self._std.get_gender(), "Gender Distribution")
             # Draw BMI
             if line.upper() == Data.BMI.name:
-                v.plot_bar(self._std.get_bmi(), "Body Mass Index (BMI)")
+                View.plot_bar(self._std.get_bmi(), "Body Mass Index (BMI)")
         except ValueError as e:
-            v.info(e)
+            View.info(e)
         except Exception as e:
-            v.error(e)
+            View.error(e)
 
-    def help_show(self):
-        v.help_show()
+    @staticmethod
+    def help_show():
+        View.help_show()
 
-    def help_add(self):
-        v.help_add()
+    @staticmethod
+    def help_add():
+        View.help_add()
 
-    def help_save(self):
-        v.help_save()
+    @staticmethod
+    def help_save():
+        View.help_save()
 
-    def help_select(self):
-        v.help_select()
+    @staticmethod
+    def help_select():
+        View.help_select()
 
     def do_quit(self, line):
         if not line == "-f" and not len(self._std.new_data) == 0:
-            v.warning("The new data hasn't been saved. Enter \"quit -f\" to quit without saving.")
+            View.warning("The new data hasn't been saved. Enter \"quit -f\" to quit without saving.")
         else:
-            v.display("Thanks for using. Bye!")
+            View.display("Thanks for using. Bye!")
             return True
 
 

@@ -14,9 +14,7 @@ class DataValidator:
     @staticmethod
     def check_empid(input_empid):
         """
-
         Check if the input empID is valid.
-        :param input_empid: user input
         :return: Formatted empid if the input one is valid, otherwise, return None
         Author: Vaishali Patel
         """
@@ -27,7 +25,7 @@ class DataValidator:
 
         # Regular expression checks if there are combination of [A-Z][0-9]{3} e.r E101
         #:P<empid> Assign to the group with the keyword 'empid'
-        pattern = r"\D*(?<empid>[A-Z][0-9]{3})\D*"
+        pattern = r"\D*(?P<empid>[A-Z][0-9]{3})\D*"
         match_obj = re.search(pattern, empid, re.I)
         if match_obj:
             # Get the matched word
@@ -48,13 +46,25 @@ class DataValidator:
 
     @staticmethod
     def check_sales(sales):
-        return sales
+        """
+        Check if the input sales is valid.
+        :return: Formatted sales if the input one is valid, otherwise, return None
+        :Author: Zhiming Liu
+        """
+        # Regular expression checks if there are consecutive 3 numbers
+        # :P<salary> Assign to the group with the keyword 'salary'
+        pattern = r"\D*(?P<sales>[0-9]{2,3})\D*"
+        match_obj = re.search(pattern, sales)
+        if match_obj:
+            # Convert the match to integer and return
+            return int(match_obj.group("sales"))
+        # Return None if no match found
+        return None
 
     @staticmethod
     def check_bmi(input_bmi):
         """
         Check if the input BMI is valid.
-        :param input_bmi: user input
         :return: Formatted BMI if the input one is valid, otherwise, return None
         :Author: Zhiming Liu
         """
@@ -78,7 +88,6 @@ class DataValidator:
     def check_salary(input_salary):
         """
         Check if the input salary is valid.
-        :param input_salary: user input
         :return: Formatted salary if the input one is valid, otherwise, return None
         :Author: Zhiming Liu
         """

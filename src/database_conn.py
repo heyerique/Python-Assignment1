@@ -1,9 +1,9 @@
 
 import sqlite3
-from idata_access import dataAccess
+from idata_access import IDataAccess
 from data import Data
 
-class Database(dataAccess):
+class Database(IDataAccess):
     # Written By Vaishali
     #
     # This is the MySQL Database connection class
