@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class dataAccess(metaclass=ABCMeta):
+class IDataAccess(metaclass=ABCMeta):
     """
     Interface for data access implementation
     :Author: Zhiming Liu

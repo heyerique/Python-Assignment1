@@ -1,10 +1,10 @@
 import csv
 from os import path, makedirs
-from idata_access import dataAccess
+from idata_access import IDataAccess
 from data import Data
 
 
-class CSVOperations(dataAccess):
+class CSVOperations(IDataAccess):
     """
     This is class for reading from a specified CSV file and writing new data to it
     :Author: Zhiming Liu
