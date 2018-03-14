@@ -21,7 +21,8 @@ class CSVOperations(dataAccess):
 
         self.__path = file_path
         paths = str(file_path).split("/")
-        self.__file_path = "/".join(paths[0:-1])
+        if len(paths) > 1:
+            self.__file_path = "/".join(paths[0:-1])
         self.__file_name = paths[-1]
 
         # Initialise fieldnames
@@ -32,7 +33,11 @@ class CSVOperations(dataAccess):
             self.create_file()
 
     def create_file(self):
-        if not path.exists(self.__file_path):
+        """
+        Create the CSV file at specified path
+        :return: None
+        """
+        if not self.__file_path == None and not path.exists(self.__file_path):
             makedirs(self.__file_path)
         # chdir(self.__file_path)
         if not self.file_exist():
