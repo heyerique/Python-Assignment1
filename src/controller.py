@@ -5,6 +5,7 @@ from view_console import ViewConsole as View
 from staff_data import StaffData
 from data import Data
 from csv_operations import CSVOperations
+from pickle_operations import PickleOperations
 
 
 class Controller(Cmd):
@@ -81,8 +82,9 @@ class Controller(Cmd):
     def do_add(self, line):
         """
         Add a new entry of data
-        :param line: <EMPID> <Age> <Gender> <Sales> <BMI> <Salary> <Birthday>
+        :param line: (String) [EMPID] [Age] [Gender] [Sales] [BMI] [Salary] [Birthday]
         :return: None
+        :Author: Zhiming Liu
         """
         # Split the input argument to obtain the data
         raw_data = list(arg.lower() for arg in str(line).split())
@@ -119,40 +121,90 @@ class Controller(Cmd):
             View.success("Add data")
 
     def do_import(self, line):
+        """
+        Import command
+        :param line: (String) [-csv|-pk] [file path]
+        :return: None
+        :Author: Zhiming Liu
+        """
         args = list(arg.lower() for arg in str(line).split())
-        if args[0] == "-csv" and len(args) == 2:
+
+        # CSV
+        if args[0] == "-csv" and len(args) > 1:
             try:
                 csv = CSVOperations(args[1])
                 import_data = csv.read()
                 View.display("IMPORTING RESULT:")
                 View.import_result_header(True)
                 for d in import_data:
-                    raw_data_row = list(d.values())
-                    try:
-                        washed = self._vld.check_all(list(d.values()))
-                        if None in washed:
-                            raw_data_row.append("Fail")
-                        else:
-                            self._std.add_data(washed)
-                            raw_data_row.append("Pass")
-                    except ValueError:
-                        raw_data_row.append("Fail")
-                    except AttributeError:
-                        raw_data_row.append("Fail")
-
-                    View.import_result_row(raw_data_row, True)
-
+                    View.import_result_row(self.import_row(d), True)
             except Exception as e:
                 View.error(e)
+        # Pickle
+        elif args[0] == "-pk" and len(args) > 1:
+            try:
+                pk = PickleOperations()
+                import_data = list(pk.pickle_import(args[1]))
+                View.display("IMPORTING RESULT:")
+                View.import_result_header(True)
+                for d in import_data:
+                    View.import_result_row(self.import_row(d), True)
+            except Exception as e:
+                View.error(e)
+            else:
+                View.success("Data has been loaded from %s" % args[1])
         else:
             View.info("Invalid command.")
             View.help_import()
+
+    def import_row(self, raw_data):
+        """
+        Add a new data from imported files
+        :param raw_data: Dict
+        :return: Dict
+        :Author: Zhiming Liu
+        """
+        result = list(raw_data.values())
+        try:
+            washed = self._vld.check_all(list(raw_data.values()))
+            if None in washed:
+                result.append("Fail")
+            else:
+                self._std.add_data(washed)
+                result.append("Pass")
+        except ValueError:
+            result.append("Fail")
+        except AttributeError:
+            result.append("Fail")
+        except Exception:
+            result.append("Fail")
+        finally:
+            return result
+
+    def do_export(self, line):
+        """
+        Export command
+        :param line: (String) [-pk] [file path]
+        :return: None
+        :Author: Zhiming Liu
+        """
+        args = list(arg.lower() for arg in str(line).split())
+        if args[0] == "-pk" and len(args) > 1:
+            try:
+                pk = PickleOperations()
+                pk.pickle_dump(args[1], self._std.get_all_data())
+            except Exception as e:
+                View.error(e)
+                View.help_export()
+            else:
+                View.success("Data has been saved to %s" % args[1])
 
     def do_save(self, arg):
         """
         Save data to specified data source
         :param arg: arg
         :return: None
+        :Author: Zhiming Liu
         """
         # If no data source selected, prompt user to do so.
         try:
@@ -167,6 +219,12 @@ class Controller(Cmd):
             View.success("Data is saved")
 
     def do_show(self, line):
+        """
+        Show command
+        :param line: (String) [-t|-p|-b] [object]
+        :return: None
+        :Author: Zhiming Liu
+        """
         # Get all instructions
         args = list(arg.lower() for arg in str(line).split())
 
@@ -205,6 +263,12 @@ class Controller(Cmd):
             View.help_show()
 
     def show_pie(self, line):
+        """
+        Draw pie chart
+        :param line: String
+        :return: None
+        :Author: Zhiming Liu
+        """
         # Draw Pies
         try:
             if len(self._std.get_gender()) == 0 or len(self._std.get_bmi()) == 0:
@@ -221,6 +285,12 @@ class Controller(Cmd):
             View.error(e)
 
     def show_bar(self, line):
+        """
+        Draw bar chart
+        :param line: String
+        :return: None
+        :Author: Zhiming Liu
+        """
         # Draw Bars
         try:
             if len(self._std.get_gender()) == 0 or len(self._std.get_gender()) == 0:
@@ -259,6 +329,10 @@ class Controller(Cmd):
     @staticmethod
     def help_import():
         View.help_import()
+
+    @staticmethod
+    def help_export():
+        View.help_export()
 
     def do_quit(self, line):
         arg = str(line).lower()

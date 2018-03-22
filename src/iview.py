@@ -5,6 +5,7 @@ class View(metaclass=ABCMeta):
     """
     Interface for output implementation
     """
+
     @staticmethod
     @abstractmethod
     def display(text):
@@ -149,6 +150,11 @@ class View(metaclass=ABCMeta):
     @staticmethod
     @abstractmethod
     def help_import():
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def help_export():
         pass
 
     @staticmethod

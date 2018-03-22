@@ -230,12 +230,23 @@ class ViewConsole(View):
     @staticmethod
     def help_import():
         print("USAGE:")
-        print("\timport <-OPTION> <FILENAME>")
+        print("\timport <-OPTION> <FILE PATH>")
         print("\nOPTIONS:")
         print("\t-csv : Import from a CSV file.")
+        print("\t-pk : Import from a pickle file.")
         print("\nEXAMPLES:")
-        print("\t{:.<30}{:<60}".format("quit -csv testingdata.csv",
+        print("\t{:.<30}{:<60}".format("import -csv testingdata.csv",
                                        "Import data from a CSV file \"testingdata.csv\"."))
+
+    @staticmethod
+    def help_export():
+        print("USAGE:")
+        print("\texport <-OPTION> <FILE PATH>")
+        print("\nOPTIONS:")
+        print("\t-pk : Export pickled data to a local file.")
+        print("\nEXAMPLES:")
+        print("\t{:.<30}{:<60}".format("export -pk data.pk",
+                                       "Export pickled data to a local file \"data.pk\"."))
 
 # new_data = {'Male': 75.0, 'Female': 15.0}
 # ViewConsole.plot_pie(new_data, "Gender")
