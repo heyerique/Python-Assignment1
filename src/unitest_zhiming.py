@@ -32,7 +32,7 @@ class MainTests(TestCase):
         self.assertListEqual(data_values, values)
 
     def test_05(self):
-        csv = CSVOperations("staffinfo2.csv")
+        csv = CSVOperations("staffinfo123.csv")
         self.assertFalse(csv.file_exist())
 
     def test_06(self):

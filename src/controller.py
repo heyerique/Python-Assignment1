@@ -198,6 +198,9 @@ class Controller(Cmd):
                 View.help_export()
             else:
                 View.success("Data has been saved to %s" % args[1])
+        else:
+            View.info("Invalid command")
+            View.help_export()
 
     def do_save(self, arg):
         """
@@ -278,7 +281,7 @@ class Controller(Cmd):
                 View.plot_pie(self._std.get_gender(), "Gender Distribution", "People")
             # Draw BMI
             if line.upper() == Data.BMI.name:
-                View.plot_pie(self._std.get_bmi(), "Body Mass Index (BMI)", "Number of People")
+                View.plot_pie(self._std.get_bmi(), "Body Mass Index (BMI)", "People")
         except ValueError as e:
             View.info(e)
         except Exception as e:
@@ -297,10 +300,10 @@ class Controller(Cmd):
                 raise ValueError("No data to display.")
             # Draw gender
             if line.upper() == Data.GENDER.name:
-                View.plot_bar(self._std.get_gender(), "Gender Distribution")
+                View.plot_bar(self._std.get_gender(), "Gender Distribution", "numer of people")
             # Draw BMI
             if line.upper() == Data.BMI.name:
-                View.plot_bar(self._std.get_bmi(), "Body Mass Index (BMI)")
+                View.plot_bar(self._std.get_bmi(), "Body Mass Index (BMI)", "number of people")
         except ValueError as e:
             View.info(e)
         except Exception as e:
@@ -308,30 +311,37 @@ class Controller(Cmd):
 
     @staticmethod
     def help_show():
+        View.display("This command is used for displaying all data that is existed in the system.\n")
         View.help_show()
 
     @staticmethod
     def help_add():
+        View.display("This command adds a new staff data to the system.\n")
         View.help_add()
 
     @staticmethod
     def help_save():
+        View.display("This command is used for saving all newly added data to the selected data source.\n")
         View.help_save()
 
     @staticmethod
     def help_select():
+        View.display("Select a source of data for reading and saving staff information.\n")
         View.help_select()
 
     @staticmethod
     def help_quit():
+        View.display("This command is used for quitting the command line mode\n")
         View.help_quit()
 
     @staticmethod
     def help_import():
+        View.display("Import data from a file that is specified in the command line.\n")
         View.help_import()
 
     @staticmethod
     def help_export():
+        View.display("Export data to a local file that is specified in the command line.\n")
         View.help_export()
 
     def do_quit(self, line):

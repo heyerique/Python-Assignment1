@@ -27,7 +27,7 @@ class PickleOperations:
         :return: None
         """
         if not path.exists(filepath):
-            return []
+            raise OSError("The path or the file doesn't exist")
 
         with open(filepath, "rb") as pfile:
             return load(pfile)

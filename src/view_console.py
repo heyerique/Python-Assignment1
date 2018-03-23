@@ -82,7 +82,7 @@ class ViewConsole(View):
         label_tmp = "{0} ({1})"
 
         if not unit == "":
-            label_tmp = "{0} ({1} %s)" % unit
+            label_tmp = "{0} ({1} %s)" % unit.upper()
 
         # Show numbers on labels
         for index in range(len(labels)):
@@ -118,6 +118,9 @@ class ViewConsole(View):
 
         # Set X, Y, bar width and bar colour
         plt.bar(x, y, width, color="#FF55AA")
+
+        if not unit == "":
+            plt.ylabel(unit.upper())
 
         # Set labels for X items
         plt.xticks(x, labels)
@@ -180,7 +183,6 @@ class ViewConsole(View):
     def help_add():
         print("USAGE:")
         print("\tadd <EMPID> <GENDER> <AGE> <SALES> <BMI> <SALARY> <BIRTHDAY>")
-
         print("\nDATA FORMAT:")
         print("\t{:.<15}{:<20}".format("EMPID", "[A-Z][0-9]{3} e.x.: M123"))
         print("\t{:.<15}{:<20}".format("GENDER", "(M|F)  e.x.: F"))

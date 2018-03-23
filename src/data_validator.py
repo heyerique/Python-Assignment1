@@ -14,14 +14,14 @@ class DataValidator:
         )
 
     @staticmethod
-    def check_empid(input_empid):
+    def check_empid(data):
         """
         Check if the input empID is valid.
         :return: Formatted empid if the input one is valid, otherwise, return None
         Author: Vaishali Patel
         """
         # Convert the input data to string
-        empid = str(input_empid)
+        empid = str(data)
 
         # Regular expression checks if there are combination of [A-Z][0-9]{3} e.r E101
         # :P<empid> Assign to the group with the keyword 'empid'
@@ -37,13 +37,14 @@ class DataValidator:
         return None
 
     @staticmethod
-    def check_gender(gender):
+    def check_gender(data):
         """
         Check validation of gender
         :param gender: <String>
         :return: washed data
         :Author: Zhiming Liu
         """
+        gender = str(data)
         pattern_01 = r"^(?P<gender>F\w*|M\w*)$"
         pattern_02 = r"^(?P<gender>girl|boy)$"
         match_01 = re.match(pattern_01, gender, re.I)
@@ -59,23 +60,24 @@ class DataValidator:
         return result
 
     @staticmethod
-    def check_age(age):
+    def check_age(data):
         """
         Check validation of age
         :param age: <String>
         :return: washed data
         :Author: Zhiming Liu
         """
-        pattern = r"^(?P<age>[0-9]{2})$"
+        age = str(data)
+        pattern = r"^(?P<age>[0-9]{1,2})$"
         match_obj = re.match(pattern, age)
         if match_obj:
             # Convert the match to integer and return
-            return int(match_obj.group("age"))
+            return "{0:02}".format(int(match_obj.group("age")))
         # Return None if no match found
         return None
 
     @staticmethod
-    def check_sales(sales):
+    def check_sales(data):
         """
         Check if the input sales is valid.
         :return: Formatted sales if the input one is valid, otherwise, return None
@@ -83,23 +85,24 @@ class DataValidator:
         """
         # Regular expression checks if there are consecutive 3 numbers
         # :P<salary> Assign to the group with the keyword 'salary'
-        pattern = r"^(?P<sales>[0-9]{2,3})$"
+        sales = str(data)
+        pattern = r"^(?P<sales>[0-9]{1,3})$"
         match_obj = re.search(pattern, sales)
         if match_obj:
             # Convert the match to integer and return
-            return int(match_obj.group("sales"))
+            return "{0:03}".format(int(match_obj.group("sales")))
         # Return None if no match found
         return None
 
     @staticmethod
-    def check_bmi(input_bmi):
+    def check_bmi(data):
         """
         Check if the input BMI is valid.
         :return: Formatted BMI if the input one is valid, otherwise, return None
         :Author: Zhiming Liu
         """
         # Convert the input data to string
-        bmi = str(input_bmi)
+        bmi = str(data)
 
         # Regular expression checks if any of the specified keywords exists
         # :P<bmi> Assign to the group with the keyword 'bmi'
@@ -115,7 +118,7 @@ class DataValidator:
         return None
 
     @staticmethod
-    def check_salary(input_salary):
+    def check_salary(data):
         """
         Check if the input salary is valid.
         :return: Formatted salary if the input one is valid, otherwise, return None
@@ -123,28 +126,30 @@ class DataValidator:
         """
         # Regular expression checks if there are consecutive 3 numbers
         # :P<salary> Assign to the group with the keyword 'salary'
+        salary = str(data)
         pattern = r"^(?P<salary>[0-9]{2,3})$"
-        match_obj = re.search(pattern, input_salary)
+        match_obj = re.search(pattern, salary)
         if match_obj:
             # Convert the match to integer and return
-            return int(match_obj.group("salary"))
+            return "{0:03}".format(int(match_obj.group("salary")))
         # Return None if no match found
         return None
 
     @staticmethod
-    def check_birthday(birthday):
+    def check_birthday(data):
         """
         Check validation of birthday
         :param birthday: <String>
         :return: washed data
         :Author: Zhiming Liu
         """
+        birthday = str(data)
         pattern = r"^([0-9]{1,2})[-/\.]([0-9]{1,2})[-/\.]([0-9]{2}|[0-9]{4})$"
         match = re.match(pattern, birthday)
         if match:
             date = "-".join(match.groups())
             struct = strptime(date, "%d-%m-%Y")
-            return "{0}-{1}-{2}".format(struct.tm_mday, struct.tm_mon, struct.tm_year)
+            return "{0:02}-{1:02}-{2:04}".format(struct.tm_mday, struct.tm_mon, struct.tm_year)
         else:
             return None
 
