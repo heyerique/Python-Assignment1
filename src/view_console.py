@@ -76,15 +76,17 @@ class ViewConsole(View):
                       row[-1]))
 
     @staticmethod
-    def plot_pie(data, title=""):
+    def plot_pie(data, title="", unit=""):
         # Get labels and sizes from the data
         labels, values = list(data.keys()), list(data.values())
+        label_tmp = "{0} ({1})"
+
+        if not unit == "":
+            label_tmp = "{0} ({1} %s)" % unit
 
         # Show numbers on labels
-        index = 0
-        while index < len(labels):
-            labels[id] = "{0} ({1})".format(labels[index], values[index])
-            index += 1
+        for index in range(len(labels)):
+            labels[index] = label_tmp.format(labels[index], values[index])
 
         # Create a figure and a set of subplots
         fq, ax = plt.subplots()
@@ -104,7 +106,7 @@ class ViewConsole(View):
         plt.show()
 
     @staticmethod
-    def plot_bar(data, title=""):
+    def plot_bar(data, title="", unit=""):
         # Get labels and sizes from the data
         labels, y = list(data.keys()), list(data.values())
 

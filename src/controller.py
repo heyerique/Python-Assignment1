@@ -275,10 +275,10 @@ class Controller(Cmd):
                 raise ValueError("No data to display.")
             # Draw gender
             if line.upper() == Data.GENDER.name:
-                View.plot_pie(self._std.get_gender(), "Gender Distribution")
+                View.plot_pie(self._std.get_gender(), "Gender Distribution", "People")
             # Draw BMI
             if line.upper() == Data.BMI.name:
-                View.plot_pie(self._std.get_bmi(), "Body Mass Index (BMI)")
+                View.plot_pie(self._std.get_bmi(), "Body Mass Index (BMI)", "Number of People")
         except ValueError as e:
             View.info(e)
         except Exception as e:
